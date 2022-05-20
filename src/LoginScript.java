@@ -7,7 +7,6 @@ import java.util.Scanner;
 
 public class LoginScript {
     public static void main(String[] args) {
-
         var loginDetails = new Hashtable<String,String>(); // This is where the login details will sit
         try // Maximum Security Data Importer. Hopefully it's readable.
         {
@@ -19,17 +18,16 @@ public class LoginScript {
         {
             throw new RuntimeException(e);
         }
-
         int tryNum = 3;
         String uname;
         String pass;
-        // System.out.println(loginDetails) >> I think some of these don't work unless you copy them in
+        // System.out.println(loginDetails); I think some of these don't work, unless you copy them in.
         do {
             try {
                 Scanner input1 = new Scanner(System.in);
                 Scanner input2 = new Scanner(System.in);
                 System.out.println("Please enter your username: ");
-                uname = input1.next().toLowerCase();
+                uname = input1.next();
                 System.out.println("Now enter your password: ");
                 pass = input2.next();
                 if (pass.equals(loginDetails.get(uname))) {
