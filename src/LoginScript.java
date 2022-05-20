@@ -23,7 +23,7 @@ public class LoginScript {
         int tryNum = 3;
         String uname;
         String pass;
-        System.out.println(loginDetails);
+        // System.out.println(loginDetails) >> I think some of these don't work unless you copy them in
         do {
             try {
                 Scanner input1 = new Scanner(System.in);
@@ -32,19 +32,21 @@ public class LoginScript {
                 uname = input1.next().toLowerCase();
                 System.out.println("Now enter your password: ");
                 pass = input2.next();
-                if (uname.equals("")) {
-                    tryNum++;
-                    throw new Exception("Invalid username.");
-                }
-
                 if (pass.equals(loginDetails.get(uname))) {
                     System.out.println("Login successful!");
+
+                    /*
+                    Here shall lie the code that gives access to the rest of the app somehow
+                    You know, like a proper login prompt would do it
+                    Probably some encryption protocol
+                     */
+
                     tryNum = 0;
-                } else {
-                    throw new Exception("Invalid Credentials.");
-                }
+                } else throw new Exception("Invalid Credentials.");
+
             } catch (Exception e) {
                 tryNum--;
+                System.out.println(e);
                 if (tryNum == 0) {
                     System.out.println("Login Unsuccessful. Please contact your administrator!");
                 }
