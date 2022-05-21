@@ -21,7 +21,7 @@ public class LoginScript {
         int tryNum = 3;
         String uname;
         String pass;
-        // System.out.println(loginDetails); I think some of these don't work, unless you copy them in.
+        // System.out.println(loginDetails); I think some of the login details don't work, unless you copy them in.
         do {
             try {
                 Scanner input1 = new Scanner(System.in);
