@@ -5,8 +5,11 @@ import java.io.IOException;
 import java.util.Hashtable;
 import java.util.Scanner;
 
-public class LoginScript {
-    public static void main(String[] args) {
+public class User {
+    public String uname;
+    public static String pass;
+
+    public static User login() throws Exception {
 
         var loginDetails = new Hashtable<String,String>(); // This is where the login details will sit
         try // Maximum Security Data Importer. Hopefully it's readable.
@@ -35,13 +38,14 @@ public class LoginScript {
                 if (pass.equals(loginDetails.get(uname))) {
                     System.out.println("Login successful!");
 
+                    User user = new User(uname, pass);
+                    return user;
                     /*
                     Here shall lie the code that gives access to the rest of the app somehow
                     You know, like a proper login prompt would do it
                     Probably some encryption protocol
                      */
 
-                    tryNum = 0;
                 } else throw new Exception("Invalid Credentials.");
 
             } catch (Exception e) {
@@ -52,5 +56,10 @@ public class LoginScript {
                 }
             }
         } while (tryNum > 0);
+        throw new Exception ("Maximum login attempts made.");
+    }
+    public User(String uname, String pass) {
+        this.uname = uname;
+        this.pass = pass;
     }
 }
