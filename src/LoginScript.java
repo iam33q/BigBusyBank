@@ -5,8 +5,8 @@ import java.io.IOException;
 import java.util.Hashtable;
 import java.util.Scanner;
 
-public class LoginScript {
-    public static void main(String[] args) {
+public class LoginScript{
+    public static boolean LScript() {
         var loginDetails = new Hashtable<String,String>(); // This is where the login details will sit
         try // Maximum Security Data Importer. Hopefully it's readable.
         {
@@ -32,23 +32,18 @@ public class LoginScript {
                 pass = input2.next();
                 if (pass.equals(loginDetails.get(uname))) {
                     System.out.println("Login successful!");
-
-                    /*
-                    Here shall lie the code that gives access to the rest of the app somehow
-                    You know, like a proper login prompt would do it
-                    Probably some encryption protocol
-                     */
-
                     tryNum = 0;
+                    return true;
                 } else throw new Exception("Invalid Credentials.");
 
             } catch (Exception e) {
                 tryNum--;
-                System.out.println(e);
+                System.out.println(e.toString());
                 if (tryNum == 0) {
                     System.out.println("Login Unsuccessful. Please contact your administrator!");
                 }
             }
         } while (tryNum > 0);
+        return false;
     }
 }
