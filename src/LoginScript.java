@@ -8,14 +8,12 @@ import java.util.Scanner;
 public class LoginScript{
     public static boolean LScript() {
         var loginDetails = new Hashtable<String,String>(); // This is where the login details will sit
-        try // Maximum Security Data Importer. Hopefully it's readable.
-        {
-            CSVReader reader = new CSVReader(new FileReader("loginData.csv"));  // Importing CSV data inside this weird object
+        try {
+            CSVReader reader = new CSVReader(new FileReader("loginData.csv")); // Importing CSV data inside this weird object
             String[][] data= reader.readAll().toArray(String[][]::new);                 // Converting weird object into workable string array
             for (String[] pair:data) loginDetails.put(pair[0], pair[1]);                // Placing array data into key value pairs
         }
-        catch (IOException | CsvException e)
-        {
+        catch (IOException | CsvException e){
             throw new RuntimeException(e);
         }
         int tryNum = 3;
@@ -32,15 +30,12 @@ public class LoginScript{
                 pass = input2.next();
                 if (pass.equals(loginDetails.get(uname))) {
                     System.out.println("Login successful!");
-                    tryNum = 0;
                     return true;
                 } else throw new Exception("Invalid Credentials.");
             } catch (Exception e) {
                 tryNum--;
                 System.out.println(e.toString());
-                if (tryNum == 0) {
-                    System.out.println("Login Unsuccessful. Please contact your administrator!");
-                }
+                if (tryNum == 0) System.out.println("Validation Unsuccessful.");
             }
         } while (tryNum > 0);
         return false;
