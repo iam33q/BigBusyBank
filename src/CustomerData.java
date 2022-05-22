@@ -64,14 +64,17 @@ public class CustomerData {
         this.address = streetName+" "+streetName+", "+town+", "+postCode;
     }
     private void setDob(int d, int m, int y){
-        LocalDate dob = Year.of(y).atMonth(m).atDay(d) ;
-        LocalDate earliestDate = LocalDate.now().minusYears(16);
+        LocalDate dob = LocalDate.of(y,m,d);
+        LocalDate earliestLegalDate = LocalDate.now().minusYears(16);
         try{
-            if ( dob.isBefore(earliestDate) ){
+            if ( dob.isBefore(earliestLegalDate) ){
                 this.dob = dob;
             } else throw new Exception("Client is below the age of 16.");
         } catch(Exception e) {
             e.printStackTrace();
         }
+    }
+    private void printCustomerData(){
+
     }
 }
