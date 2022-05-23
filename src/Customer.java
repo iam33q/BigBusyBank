@@ -1,47 +1,34 @@
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.util.Hashtable;
-import java.util.Random;
 import java.util.Scanner;
 
-public class CustomerAccount {
+public class Customer {
 
-    String type;
-    int accNumber;
-    int sortCode;
-    String fullName;
-    LocalDate dob;
-    String telephone;
-    String[] address = new String[4];
-    String[] address2= new String[4];
-    String[] address3= new String[4];
+    private String fullName;
+    private LocalDate dob;
+    private String telephone;
+    private String[] address = new String[4];
+    private String[] address2= new String[4];
+    private String[] address3= new String[4];
 
     //Constructors
-    private CustomerAccount() {
-        this(null, 0, 0, null, null, null,null,null,null);
+    public Customer() {
+        this(null, null, null,null,null,null);
     }
 
     //Constructors
-    private CustomerAccount(String type, int accNumber, int sortCode, String fullName, LocalDate dob, String telephone, String[] address){
-        this.type = type;
-        this.accNumber = accNumber;
-        this.sortCode = sortCode;
+    private Customer(String fullName, LocalDate dob, String telephone, String[] address){
         this.fullName = fullName;
         this.address = address;
         this.dob=dob;
     }
-    private CustomerAccount(String type, int accNumber, int sortCode, String fullName, LocalDate dob, String telephone, String[] address, String[] address2){
-        this.type = type;
-        this.accNumber = accNumber;
-        this.sortCode = sortCode;
+    private Customer(String fullName, LocalDate dob, String telephone, String[] address, String[] address2){
         this.fullName = fullName;
         this.address = address;
         this.address2 = address2;
     }
-    private CustomerAccount(String type, int accNumber, int sortCode, String fullName, LocalDate dob, String telephone, String[] address, String[] address2, String[] address3){
-        this.type = type;
-        this.accNumber = accNumber;
-        this.sortCode = sortCode;
+    private Customer(String fullName, LocalDate dob, String telephone, String[] address, String[] address2, String[] address3){
         this.fullName = fullName;
         this.address = address;
         this.address2 = address2;
@@ -50,15 +37,6 @@ public class CustomerAccount {
     }
 
     //Getters
-    private String getType(){
-        return this.type;
-    }
-    private int getAccNumber(){
-        return this.accNumber;
-    }
-    private int getSortCode(){
-        return this.sortCode;
-    }
     private String getFullName(){
         return this.fullName;
     }
@@ -79,25 +57,6 @@ public class CustomerAccount {
     }
 
     //Setters
-    private void setType(String selection){
-        switch (selection){
-            case "basic":this.type = "basic";
-            case "savings":this.type = "savings";
-            case "business":this.type = "business";
-            default: this.type = "basic";
-        }
-    }
-    private void setAccNumber(){
-        this.accNumber = new Random().nextInt(90000000)+10000000;
-    }
-    private void setSortCode(){
-        switch (this.getType()){
-            case "basic": this.sortCode = 102345;
-            case "savings": this.sortCode = 102346;
-            case "business": this.sortCode = 102347;
-            default: this.sortCode = 102345;
-        }
-    }
     private void setName(String firstName, String lastName){
         this.fullName = firstName+" "+lastName;
     }
@@ -144,10 +103,9 @@ public class CustomerAccount {
         this.address3[2] = town;
         this.address3[3] = postCode;
     }
-
     // Methods
-    public CustomerAccount newCustomerAccount(){
-        CustomerAccount acc = new CustomerAccount();
+    public Customer newCustomer(){
+        Customer acc = new Customer();
         try{
             System.out.println("In order to perform this function, please follow the instructions below:");
             if (LoginScript.LScript()){ // Additional login credentials check
@@ -157,16 +115,15 @@ public class CustomerAccount {
                 String scan;
                 int numberOfAddresses = 1;
                 int i=0;
-
                 //Checking residence history
                 System.out.println("Input the move-in date for your current address, using the following format: [dd-MM-yyyy]");
                 String date = input.next();
-                LocalDate dateinput = LocalDate.parse(date,DateTimeFormatter.ofPattern("dd-MM-yyyy"));
-                if(dateinput.isAfter(LocalDate.now().minusYears(3))){
+                LocalDate dateInput = LocalDate.parse(date,DateTimeFormatter.ofPattern("dd-MM-yyyy"));
+                if(dateInput.isAfter(LocalDate.now().minusYears(3))){
                     numberOfAddresses++;
                     System.out.println("Input the move-in date for your previous address, using the following format: [dd-MM-yyyy]");
                     String date2 = input.next();
-                    LocalDate dateinput2 = LocalDate.parse(date,DateTimeFormatter.ofPattern("dd-MM-yyyy"));
+                    LocalDate dateinput2 = LocalDate.parse(date2,DateTimeFormatter.ofPattern("dd-MM-yyyy"));
                     if(dateinput2.isAfter(LocalDate.now().minusYears(3))){
                         numberOfAddresses++;
                     }
@@ -180,9 +137,6 @@ public class CustomerAccount {
                     if (i >= 5+4*numberOfAddresses) break; // Feels like there should be a better solution
                 }
                 // Time to set some states
-                acc.setType(inputs.get("Type"));
-                acc.setSortCode();
-                acc.setAccNumber();
                 acc.setName(inputs.get("First Name"),inputs.get("Last Name"));
                 acc.setDob(inputs.get("Date of Birth"));
                 acc.setTelephone(inputs.get("Telephone"));
@@ -195,4 +149,5 @@ public class CustomerAccount {
         }
         return acc;
     }
+
 }
