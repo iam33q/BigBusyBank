@@ -135,7 +135,7 @@ public class CustomerAccount {
     }
 
     // Methods
-    public CustomerAccount newCustomerAccount(){
+    public static CustomerAccount newCustomerAccount(){
         CustomerAccount acc = new CustomerAccount();
         try{
             System.out.println("In order to perform this function, please follow the instructions below:");
