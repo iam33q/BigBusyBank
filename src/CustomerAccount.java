@@ -1,10 +1,8 @@
-import com.opencsv.CSVWriter;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.util.Hashtable;
 import java.util.Random;
 import java.util.Scanner;
-import java.util.random.RandomGenerator;
 
 public class CustomerAccount {
 
@@ -12,18 +10,19 @@ public class CustomerAccount {
     int accNumber;
     int sortCode;
     String fullName;
+    LocalDate dob;
+    String telephone;
     String[] address = new String[4];
     String[] address2= new String[4];
     String[] address3= new String[4];
-    LocalDate dob;
 
     //Constructors
     private CustomerAccount() {
-        this(null, 0, 0, null, null, null,null,null);
+        this(null, 0, 0, null, null, null,null,null,null);
     }
 
     //Constructors
-    private CustomerAccount(String type, int accNumber, int sortCode, String fullName, LocalDate dob, String[] address){
+    private CustomerAccount(String type, int accNumber, int sortCode, String fullName, LocalDate dob, String telephone, String[] address){
         this.type = type;
         this.accNumber = accNumber;
         this.sortCode = sortCode;
@@ -31,7 +30,7 @@ public class CustomerAccount {
         this.address = address;
         this.dob=dob;
     }
-    private CustomerAccount(String type, int accNumber, int sortCode, String fullName, LocalDate dob, String[] address, String[] address2){
+    private CustomerAccount(String type, int accNumber, int sortCode, String fullName, LocalDate dob, String telephone, String[] address, String[] address2){
         this.type = type;
         this.accNumber = accNumber;
         this.sortCode = sortCode;
@@ -39,7 +38,7 @@ public class CustomerAccount {
         this.address = address;
         this.address2 = address2;
     }
-    private CustomerAccount(String type, int accNumber, int sortCode, String fullName, LocalDate dob, String[] address, String[] address2, String[] address3){
+    private CustomerAccount(String type, int accNumber, int sortCode, String fullName, LocalDate dob, String telephone, String[] address, String[] address2, String[] address3){
         this.type = type;
         this.accNumber = accNumber;
         this.sortCode = sortCode;
@@ -51,7 +50,7 @@ public class CustomerAccount {
     }
 
     //Getters
-    public String getType(){
+    private String getType(){
         return this.type;
     }
     private int getAccNumber(){
@@ -63,6 +62,12 @@ public class CustomerAccount {
     private String getFullName(){
         return this.fullName;
     }
+    private LocalDate getDob(){
+        return this.dob;
+    }
+    private String getTelephone(){
+        return this.telephone;
+    }
     private String[] getAddress(){
         return this.address;
     }
@@ -71,9 +76,6 @@ public class CustomerAccount {
     }
     private String[] getAddress3(){
         return this.address3;
-    }
-    private LocalDate getDob(){
-        return this.dob;
     }
 
     //Setters
@@ -115,6 +117,15 @@ public class CustomerAccount {
             e.printStackTrace();
         }
     }
+    private void setTelephone(String phone){
+        try{
+            if(phone.length() == 11){
+                this.telephone = telephone;
+            } else throw new Exception("Invalid phone number.");
+        } catch (Exception e){
+            System.out.println(e);
+        }
+    }
     private void setAddress(String streetNumber, String streetName,String town, String postCode){
         this.address[0] = streetNumber;
         this.address[1] = streetName;
@@ -139,35 +150,42 @@ public class CustomerAccount {
         CustomerAccount acc = new CustomerAccount();
         try{
             System.out.println("In order to perform this function, please follow the instructions below:");
-            if (LoginScript.LScript()){
+            if (LoginScript.LScript()){ // Additional login credentials check
                 var inputs = new Hashtable<String,String>();
                 Scanner input = new Scanner(System.in);
-                String[] dataLabels = {"Account Number","Type","First Name","Last Name","Date of Birth","Street Number 1","Street Name 1","Town 1","Post Code 1","Street Number 2","Street Name 2","Town 2","Post Code 2","Street Number 3","Street Name 3","Town 3","Post Code 3"};
+                String[] dataLabels = {"First Name","Last Name","Date of Birth","Type of account","Telephone","Street Number 1","Street Name 1","Town 1","Post Code 1","Street Number 2","Street Name 2","Town 2","Post Code 2","Street Number 3","Street Name 3","Town 3","Post Code 3"};
+                String scan;
                 int numberOfAddresses = 1;
                 int i=0;
+
+                //Checking residence history
+                System.out.println("Input the move-in date for your current address, using the following format: [dd-MM-yyyy]");
                 String date = input.next();
                 LocalDate dateinput = LocalDate.parse(date,DateTimeFormatter.ofPattern("dd-MM-yyyy"));
-
-                System.out.println("Input the duration of residence at current address, using the following format: [dd-MM-yyyy]");
                 if(dateinput.isAfter(LocalDate.now().minusYears(3))){
                     numberOfAddresses++;
+                    System.out.println("Input the move-in date for your previous address, using the following format: [dd-MM-yyyy]");
                     String date2 = input.next();
                     LocalDate dateinput2 = LocalDate.parse(date,DateTimeFormatter.ofPattern("dd-MM-yyyy"));
                     if(dateinput2.isAfter(LocalDate.now().minusYears(3))){
                         numberOfAddresses++;
                     }
                 }
+                //Populating the inputs table with user inputs
                 for (String data:dataLabels){
                     System.out.printf("Input the following information:\n%s",data);
-                    inputs.put(data,input.next());
+                    scan = input.nextLine();
+                    inputs.put(data,scan);
                     i++;
-                    if (i >= 4+4*numberOfAddresses) break; // Feels like there should be a better solution
+                    if (i >= 5+4*numberOfAddresses) break; // Feels like there should be a better solution
                 }
-                acc.setType(inputs.get("Type").toString());
+                // Time to set some states
+                acc.setType(inputs.get("Type"));
                 acc.setSortCode();
                 acc.setAccNumber();
-                acc.setName(inputs.get("First Name").toString(),inputs.get("Last Name").toString());
-                acc.setDob(inputs.get("Date of Birth").toString());
+                acc.setName(inputs.get("First Name"),inputs.get("Last Name"));
+                acc.setDob(inputs.get("Date of Birth"));
+                acc.setTelephone(inputs.get("Telephone"));
                 acc.setAddress(inputs.get("Street Number 1"),inputs.get("Street Name 1"),inputs.get("Town 1"),inputs.get("Post Code 1"));
                 if (numberOfAddresses == 2) acc.setAddress2(inputs.get("Street Number 2"),inputs.get("Street Name 2"),inputs.get("Town 2"),inputs.get("Post Code 2"));
                 if (numberOfAddresses == 3) acc.setAddress3(inputs.get("Street Number 3"),inputs.get("Street Name 3"),inputs.get("Town 3"),inputs.get("Post Code 3"));
