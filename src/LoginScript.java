@@ -20,23 +20,21 @@ public class LoginScript{
         String uname;
         String pass;
         // System.out.println(loginDetails); I think some of the login details don't work, unless you copy them in.
-        do {
-            try {
-                Scanner input1 = new Scanner(System.in);
-                Scanner input2 = new Scanner(System.in);
-                System.out.println("Please enter your username: ");
-                uname = input1.next();
-                System.out.println("Now enter your password: ");
-                pass = input2.next();
-                if (pass.equals(loginDetails.get(uname))) {
-                    System.out.println("Login successful!");
-                    return true;
-                } else throw new Exception("Invalid Credentials.");
-            } catch (Exception e) {
-                tryNum--;
-                System.out.println(e.toString());
-                if (tryNum == 0) System.out.println("Validation Unsuccessful.");
-            }
+        do try {
+            Scanner input1 = new Scanner(System.in);
+            Scanner input2 = new Scanner(System.in);
+            System.out.println("Please enter your username: ");
+            uname = input1.next();
+            System.out.println("Now enter your password: ");
+            pass = input2.next();
+            if (pass.equals(loginDetails.get(uname))) {
+                System.out.println("Login successful!");
+                return true;
+            } else throw new Exception("Invalid Credentials.");
+        } catch (Exception e) {
+            tryNum--;
+            System.out.println(e.toString());
+            if (tryNum == 0) System.out.println("Validation Unsuccessful.");
         } while (tryNum > 0);
         return false;
     }
