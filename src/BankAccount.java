@@ -3,21 +3,25 @@ import java.util.Scanner;
 public abstract class BankAccount  {
     private final int accNumber;
     private double balance;
+    private String customerId;
 
-Scanner sc = new Scanner(System.in);
     // Constructors
 
-    public BankAccount() {
-        int lastAccountNumber = 99999999;
+    public BankAccount( double balance, Customer customer) {
+        int lastAccountNumber = 9999999;
         this.accNumber = lastAccountNumber+1;
-    }
-    public BankAccount( double balance) {
-        int lastAccountNumber = 99999999;
-        this.accNumber = lastAccountNumber+1;
+        lastAccountNumber++;
         this.balance = balance;
+        this.customerId = customer.getCustomerId();
     }
 
+    public String getCustomerId() {
+        return customerId;
+    }
 
+    public void setCustomerId(Customer customer) {
+        this.customerId = customer.getCustomerId();
+    }
 
     public int getAccNumber() {
         return accNumber;
@@ -27,12 +31,12 @@ Scanner sc = new Scanner(System.in);
         return balance;
     }
 
-    public void setBalance(double balance) {
+    private void setBalance(double balance) {
         this.balance = balance;
     }
 
     //Methods
-
+    Scanner sc = new Scanner(System.in);
 
     //method to search an account number
 
