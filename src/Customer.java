@@ -1,89 +1,72 @@
-import com.opencsv.CSVWriter;
+import com.opencsv.CSVReader;
+import com.opencsv.exceptions.CsvException;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 public class Customer {
-
-    private int customerId;
-    private String fullName;
-    private LocalDate dob;
-    private String telephone;
-    private String Email;
-    private String IdNumber;
-    private String[] address = new String[4];
-    private String[] address2= new String[4];
-    private String[] address3= new String[4];
-    private final String[] dataLabels = {"Customer Id","First Name","Last Name","Date of Birth","Telephone","Email","Id Number","Street Number 1","Street Name 1","Town 1","Post Code 1"}; // One of these three arrays will be used to define the size of a data set further down
-    private final String[] dataLabels2 = {"Customer Id","First Name","Last Name","Date of Birth","Telephone","Email","Id Number","Street Number 1","Street Name 1","Town 1","Post Code 1","Street Number 2","Street Name 2","Town 2","Post Code 2"};
-    private final String[] dataLabels3 = {"Customer Id","First Name","Last Name","Date of Birth","Telephone","Email","Id Number","Street Number 1","Street Name 1","Town 1","Post Code 1","Street Number 2","Street Name 2","Town 2","Post Code 2","Street Number 3","Street Name 3","Town 3","Post Code 3"};
-
+    private static String customerId;
+    private static String fullName;
+    private static LocalDate dob;
+    private static String telephone;
+    private static String Email;
+    private static String IdNumber;
+    private static String[] address = new String[4];
+    private static String[] address2= new String[4];
+    private static String[] address3= new String[4];
+    private static final String[] dataLabels = {"Customer Id","First Name","Last Name","Date of Birth","Telephone","Email","Id Number","Street Number 1","Street Name 1","Town 1","Post Code 1"}; // One of these three arrays will be used to define the size of a data set further down
+    private static final String[] dataLabels2 = {"Customer Id","First Name","Last Name","Date of Birth","Telephone","Email","Id Number","Street Number 1","Street Name 1","Town 1","Post Code 1","Street Number 2","Street Name 2","Town 2","Post Code 2"};
+    private static final String[] dataLabels3 = {"Customer Id","First Name","Last Name","Date of Birth","Telephone","Email","Id Number","Street Number 1","Street Name 1","Town 1","Post Code 1","Street Number 2","Street Name 2","Town 2","Post Code 2","Street Number 3","Street Name 3","Town 3","Post Code 3"};
     //Constructors
-    public Customer() {
-        this(0,null, null, null,null,null,null,null,null);
-    }
-
-    //Constructors
-    private Customer(int customerId, String fullName, LocalDate dob, String telephone, String Email, String IdNumber, String[] address){
+    private Customer(String customerId, String fullName, LocalDate dob, String telephone, String Email, String IdNumber, String[] address){
+        this.customerId = customerId;
         this.fullName = fullName;
-        this.address = address;
+        this.telephone = telephone;
+        this.Email = Email;
         this.dob=dob;
+        this.IdNumber = IdNumber;
+        this.address = address;
     }
-    private Customer(int customerId, String fullName, LocalDate dob, String telephone, String Email, String IdNumber, String[] address, String[] address2){
+    private Customer(String customerId, String fullName, LocalDate dob, String telephone, String Email, String IdNumber, String[] address, String[] address2){
+        this.customerId = customerId;
         this.fullName = fullName;
+        this.telephone = telephone;
+        this.Email = Email;
+        this.dob=dob;
+        this.IdNumber = IdNumber;
         this.address = address;
         this.address2 = address2;
     }
-
-
-
-
-    private Customer(int customerId, String fullName, LocalDate dob, String telephone, String Email, String IdNumber, String[] address, String[] address2, String[] address3){
+    private Customer(String customerId, String fullName, LocalDate dob, String telephone, String Email, String IdNumber, String[] address, String[] address2, String[] address3){
+        this.customerId = customerId;
         this.fullName = fullName;
+        this.telephone = telephone;
+        this.Email = Email;
+        this.dob=dob;
+        this.IdNumber = IdNumber;
         this.address = address;
         this.address2 = address2;
         this.address3 = address3;
-
     }
 
     //Getters
-    public int getCustomerId() {
-        return customerId;
-    }
-    private String getFullName(){
-        return this.fullName;
-    }
-    private LocalDate getDob(){
-        return this.dob;
-    }
-    private String getTelephone(){
-        return this.telephone;
-    }
-    public String getEmail() {
-        return Email;
-    }
-    public String getIdNumber() {
-        return IdNumber;
-    }
-    private String[] getAddress(){
-        return this.address;
-    }
-    private String[] getAddress2(){
-        return this.address2;
-    }
-    private String[] getAddress3(){
-        return this.address3;
-    }
+    public static String getCustomerId() {return customerId;}
+    private String getFullName(){return this.fullName;}
+    private LocalDate getDob(){return this.dob;}
+    private String getTelephone(){return this.telephone;}
+    public String getEmail() {return Email;}
+    public String getIdNumber() {return IdNumber;}
+    private String[] getAddress(){return this.address;}
+    private String[] getAddress2(){return this.address2;}
+    private String[] getAddress3(){return this.address3;}
 
     //Setters
-    private void setCustomerId() {
-        int rand = new Random().nextInt(1000000);
-        this.customerId = rand;
-    }
-    private void setName(String firstName, String lastName){
-        this.fullName = firstName+" "+lastName;
-    }
+    private void setCustomerId() {this.customerId = new UUID(new Random().nextLong(2^32), new Random().nextLong(2^32)).toString();}
+    private void setName(String firstName, String lastName){this.fullName = firstName+" "+lastName;}
     private void setDob(String date) // Date format: dd-MM-yyyy
     {
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
@@ -102,9 +85,8 @@ public class Customer {
     }
     private void setTelephone(String phone){
         try{
-            if(phone.length() == 11){
-                this.telephone = telephone;
-            } else throw new Exception("Invalid phone number.");
+            if(phone.length() == 11) this.telephone = telephone;
+            else throw new Exception("Invalid phone number.");
         } catch (Exception e){
             System.out.println(e);
         }
@@ -114,27 +96,10 @@ public class Customer {
         boolean check2 = email.contains(".");
         if(check1&&check2) Email = email; // Very advanced email format checker
     }
-    public void setIdNumber(String idNumber) {
-        IdNumber = idNumber;
-    }
-    private void setAddress(String streetNumber, String streetName,String town, String postCode){
-        this.address[0] = streetNumber;
-        this.address[1] = streetName;
-        this.address[2] = town;
-        this.address[3] = postCode;
-    }
-    private void setAddress2(String streetNumber, String streetName,String town, String postCode){
-        this.address2[0] = streetNumber;
-        this.address2[1] = streetName;
-        this.address2[2] = town;
-        this.address2[3] = postCode;
-    }
-    private void setAddress3(String streetNumber, String streetName,String town, String postCode){
-        this.address3[0] = streetNumber;
-        this.address3[1] = streetName;
-        this.address3[2] = town;
-        this.address3[3] = postCode;
-    }
+    public void setIdNumber(String idNumber) {IdNumber = idNumber;}
+    private void setAddress(String streetNumber, String streetName,String town, String postCode){this.address = new String[] {streetNumber,streetName,town,postCode};}
+    private void setAddress2(String streetNumber, String streetName,String town, String postCode){this.address2 = new String[] {streetNumber,streetName,town,postCode};}
+    private void setAddress3(String streetNumber, String streetName,String town, String postCode){this.address3 = new String[] {streetNumber,streetName,town,postCode};}
 
     // More setters because life is hard
     private void setName(String fullName){this.fullName = fullName;}
@@ -142,7 +107,6 @@ public class Customer {
     private void setAddress1StreetName(String s){this.address[1]=s;}
     private void setAddress1Town(String s){this.address[2]=s;}
     private void setAddress1PostCode(String s){this.address[3]=s;}
-
     private void setAddress2StreetNumber(String s){this.address2[0]=s;}
     private void setAddress2StreetName(String s){this.address2[1]=s;}
     private void setAddress2Town(String s){this.address2[2]=s;}
@@ -153,8 +117,8 @@ public class Customer {
     private void setAddress3PostCode(String s){this.address3[3]=s;}
 
     // Methods
-    public Customer newCustomer(){
-        Customer acc = new Customer();
+    public static Customer newCustomer(){
+        Customer acc = null;
         try{
             System.out.println("In order to perform this function, please follow the instructions below:");
             if (LoginScript.LScript()){ // Additional login credentials check
@@ -178,8 +142,15 @@ public class Customer {
                     if(dateinput2.isAfter(LocalDate.now().minusYears(3))){
                         numberOfAddresses++;
                         activeLabels = dataLabels3;
-                    } else activeLabels = dataLabels2;
-                } else activeLabels = dataLabels;
+                        acc = new Customer(null,null,null,null,null,null,new String[] {"one","two","three","four"},new String[] {"one","two","three","four"},new String[] {"one","two","three","four"});
+                    } else {
+                        activeLabels = dataLabels2;
+                        acc = new Customer(null,null,null,null,null,null,new String[] {"one","two","three","four"},new String[] {"one","two","three","four"});
+                    }
+                } else {
+                    activeLabels = dataLabels;
+                    acc = new Customer(null,null,null,null,null,null,new String[] {"one","two","three","four"});
+                }
 
                 // Populating the inputs table with user inputs, in what I'm hoping is a foolproof way
                 for (String data:activeLabels){
@@ -202,20 +173,26 @@ public class Customer {
         } catch (Exception e){
             e.printStackTrace();
         }
+        System.out.println("Account Creation Successful!");
         return acc;
     }
-    public void editCustomer(Customer acc){
+    public static void editCustomer(Customer acc){
         Scanner input = new Scanner(System.in);
         Scanner input2 = new Scanner(System.in);
         String scan;
         String scan2;
-        boolean keepgoing = true;
+        String[] activeLabels; // This will be defined below, according to the number of addresses in the Customer object.
+        if(acc.getAddress2() != null){
+            if(acc.getAddress3() != null) activeLabels = dataLabels3;
+            else activeLabels = dataLabels2;
+        } else activeLabels = dataLabels;
+        boolean keepGoing = true;
         System.out.println("Type in the data labels and press enter to select them for alteration. \nThen type in the new entry for that data label. \n Type in STOP to exit data entry.");
         System.out.println("Note: Date of Birth must be formatted as follows: [dd-MM-yyyy].\nCustomerId cannot be overwritten. \nFirst Name and Last Name choices will overwrite both names at once");
-            while(keepgoing){ // This loop will stop when you tell it to stop. Perfection.
-            System.out.println("Select which data you would like to alter:\n"+Arrays.toString(dataLabels3));
+        while(keepGoing){ // This loop will stop when you tell it to stop. What more could a user ask for?
+            System.out.println("Select which data you would like to alter:\n"+Arrays.toString(activeLabels));
             scan=input.next();
-            if(scan.equalsIgnoreCase("stop")) keepgoing=false;
+            if(scan.equalsIgnoreCase("stop")) keepGoing=false;
             System.out.println("Enter the desired value for - "+scan);
             scan2=input2.next();
             try {
@@ -239,17 +216,85 @@ public class Customer {
                     case "Street Name 3":   acc.setAddress3StreetName(scan2);break;
                     case "Town 3":          acc.setAddress3Town(scan2);break;
                     case "Post Code 3":     acc.setAddress3PostCode(scan2);break;
-                    default:                throw new Exception("Invalid label.");
+                    default:                throw new Exception("Invalid label. Please try entering a label name again.");
                 }
             } catch(Exception e) {
                 System.out.println(e);
+                System.out.println("Valid Labels: "+activeLabels.toString());
             }
         }
     }
-    public void writeCustomerToDisk(){
+    public static void writeCustomerToDisk(){
+        try{
+            CSVReader reader = new CSVReader(new FileReader("customerData.csv"));
 
+        } catch(FileNotFoundException e) {
+            e.printStackTrace();
+        }
     }
-    public void ReadCustomerFromDisk(){
+    public static Customer ReadCustomerFromDisk(String searchLabel, String searchString) {
+        Customer acc;
+        try{
+            List<String> labelList = new ArrayList<>(Arrays.asList(dataLabels3));
+            if (labelList.contains(searchLabel))    // Validating searchLabel input
+            {
+                int index1 = labelList.indexOf(searchLabel);
+                try {
+                    CSVReader reader = new CSVReader(new FileReader("customerData.csv"));
+                    List<String[]> allRecords = reader.readAll();
+                    //var
+                    for (int i = 0; i < allRecords.size(); i++) {
+                        if (Objects.equals(allRecords.get(i)[index1], searchString))
+                        {   // Construction time!
+                            String[] requiredRecord = allRecords.get(i);
+                            switch(requiredRecord.length){
+                                case 11:
+                                    acc=new Customer(customerId, fullName, dob,telephone,Email,IdNumber,address);
+                                    break;
+                                case 15: acc=new Customer(customerId, fullName, dob,telephone,Email,IdNumber,address,address2);
+                                    acc.setAddress2(requiredRecord[11],requiredRecord[12],requiredRecord[13],requiredRecord[14]);
+                                    break;
+                                case 19: acc=new Customer(customerId, fullName, dob,telephone,Email,IdNumber,address,address2,address3);
+                                    acc.setAddress2(requiredRecord[11],requiredRecord[12],requiredRecord[13],requiredRecord[14]);
+                                    acc.setAddress3(requiredRecord[15],requiredRecord[16],requiredRecord[17],requiredRecord[18]);
+                                    break;
+                                default: acc=new Customer(customerId, fullName, dob,telephone,Email,IdNumber,address,address2,address3);
+                                    acc.setAddress2(requiredRecord[11],requiredRecord[12],requiredRecord[13],requiredRecord[14]);
+                                    acc.setAddress3(requiredRecord[15],requiredRecord[16],requiredRecord[17],requiredRecord[18]);
+                                    System.out.println("Something likely went wrong. Please check output.");
+                            }
+                            acc.setName(requiredRecord[1],requiredRecord[2]);
+                            acc.setDob(requiredRecord[3]);
+                            acc.setTelephone(requiredRecord[4]);
+                            acc.setEmail(requiredRecord[5]);
+                            acc.setIdNumber(requiredRecord[6]);
+                            acc.setAddress(requiredRecord[7],requiredRecord[8],requiredRecord[9],requiredRecord[10]);
+                            System.out.println("Account acquired.");
+                            return acc;
+                        }
+                    }
+                } catch (IOException | CsvException e) {
+                    e.printStackTrace();
+                }
+            } else throw new Exception("Invalid data label.");
+        } catch (Exception e){System.out.println(e);}
+        acc=new Customer(customerId, fullName, dob,telephone,Email,IdNumber,address,address2,address3);
+        System.out.println("Account not found. Empty account created.");
+        return acc;
+    }
+    public static void writeCustomerToDisk(Customer acc){
+        try{
+            String size;
+            CSVReader reader = new CSVReader(new FileReader("customerData.csv"));
+            List<String[]> allRecords =reader.readAll();
+            for (int i=0;i<allRecords.size();i++)
+            {
+
+            }
+
+        } catch(IOException | CsvException e) {
+            e.printStackTrace();
+        }
 
     }
 }
