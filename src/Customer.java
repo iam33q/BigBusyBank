@@ -1,19 +1,23 @@
-import com.opencsv.CSVWriter;
+import com.opencsv.CSVReader;
+import com.opencsv.exceptions.CsvException;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 public class Customer {
-    private String customerId;
-    private String fullName;
-    private LocalDate dob;
-    private String telephone;
-    private String Email;
-    private String IdNumber;
-    private String[] address = new String[4];
-    private String[] address2= new String[4];
-    private String[] address3= new String[4];
+    private static String customerId;
+    private static String fullName;
+    private static LocalDate dob;
+    private static String telephone;
+    private static String Email;
+    private static String IdNumber;
+    private static String[] address = new String[4];
+    private static String[] address2= new String[4];
+    private static String[] address3= new String[4];
     private static final String[] dataLabels = {"Customer Id","First Name","Last Name","Date of Birth","Telephone","Email","Id Number","Street Number 1","Street Name 1","Town 1","Post Code 1"}; // One of these three arrays will be used to define the size of a data set further down
     private static final String[] dataLabels2 = {"Customer Id","First Name","Last Name","Date of Birth","Telephone","Email","Id Number","Street Number 1","Street Name 1","Town 1","Post Code 1","Street Number 2","Street Name 2","Town 2","Post Code 2"};
     private static final String[] dataLabels3 = {"Customer Id","First Name","Last Name","Date of Birth","Telephone","Email","Id Number","Street Number 1","Street Name 1","Town 1","Post Code 1","Street Number 2","Street Name 2","Town 2","Post Code 2","Street Number 3","Street Name 3","Town 3","Post Code 3"};
@@ -50,7 +54,7 @@ public class Customer {
     }
 
     //Getters
-    public String getCustomerId() {return customerId;}
+    public static String getCustomerId() {return customerId;}
     private String getFullName(){return this.fullName;}
     private LocalDate getDob(){return this.dob;}
     private String getTelephone(){return this.telephone;}
@@ -169,9 +173,10 @@ public class Customer {
         } catch (Exception e){
             e.printStackTrace();
         }
+        System.out.println("Account Creation Successful!");
         return acc;
     }
-    public void editCustomer(Customer acc){
+    public static void editCustomer(Customer acc){
         Scanner input = new Scanner(System.in);
         Scanner input2 = new Scanner(System.in);
         String scan;
@@ -219,10 +224,77 @@ public class Customer {
             }
         }
     }
-    public void writeCustomerToDisk(){
+    public static void writeCustomerToDisk(){
+        try{
+            CSVReader reader = new CSVReader(new FileReader("customerData.csv"));
 
+        } catch(FileNotFoundException e) {
+            e.printStackTrace();
+        }
     }
-    public void ReadCustomerFromDisk(){
+    public static Customer ReadCustomerFromDisk(String searchLabel, String searchString) {
+        Customer acc;
+        try{
+            List<String> labelList = new ArrayList<>(Arrays.asList(dataLabels3));
+            if (labelList.contains(searchLabel))    // Validating searchLabel input
+            {
+                int index1 = labelList.indexOf(searchLabel);
+                try {
+                    CSVReader reader = new CSVReader(new FileReader("customerData.csv"));
+                    List<String[]> allRecords = reader.readAll();
+                    //var
+                    for (int i = 0; i < allRecords.size(); i++) {
+                        if (Objects.equals(allRecords.get(i)[index1], searchString))
+                        {   // Construction time!
+                            String[] requiredRecord = allRecords.get(i);
+                            switch(requiredRecord.length){
+                                case 11:
+                                    acc=new Customer(customerId, fullName, dob,telephone,Email,IdNumber,address);
+                                    break;
+                                case 15: acc=new Customer(customerId, fullName, dob,telephone,Email,IdNumber,address,address2);
+                                    acc.setAddress2(requiredRecord[11],requiredRecord[12],requiredRecord[13],requiredRecord[14]);
+                                    break;
+                                case 19: acc=new Customer(customerId, fullName, dob,telephone,Email,IdNumber,address,address2,address3);
+                                    acc.setAddress2(requiredRecord[11],requiredRecord[12],requiredRecord[13],requiredRecord[14]);
+                                    acc.setAddress3(requiredRecord[15],requiredRecord[16],requiredRecord[17],requiredRecord[18]);
+                                    break;
+                                default: acc=new Customer(customerId, fullName, dob,telephone,Email,IdNumber,address,address2,address3);
+                                    acc.setAddress2(requiredRecord[11],requiredRecord[12],requiredRecord[13],requiredRecord[14]);
+                                    acc.setAddress3(requiredRecord[15],requiredRecord[16],requiredRecord[17],requiredRecord[18]);
+                                    System.out.println("Something likely went wrong. Please check output.");
+                            }
+                            acc.setName(requiredRecord[1],requiredRecord[2]);
+                            acc.setDob(requiredRecord[3]);
+                            acc.setTelephone(requiredRecord[4]);
+                            acc.setEmail(requiredRecord[5]);
+                            acc.setIdNumber(requiredRecord[6]);
+                            acc.setAddress(requiredRecord[7],requiredRecord[8],requiredRecord[9],requiredRecord[10]);
+                            System.out.println("Account acquired.");
+                            return acc;
+                        }
+                    }
+                } catch (IOException | CsvException e) {
+                    e.printStackTrace();
+                }
+            } else throw new Exception("Invalid data label.");
+        } catch (Exception e){System.out.println(e);}
+        acc=new Customer(customerId, fullName, dob,telephone,Email,IdNumber,address,address2,address3);
+        System.out.println("Account not found. Empty account created.");
+        return acc;
+    }
+    public static void writeCustomerToDisk(Customer acc){
+        try{
+            String size;
+            CSVReader reader = new CSVReader(new FileReader("customerData.csv"));
+            List<String[]> allRecords =reader.readAll();
+            for (int i=0;i<allRecords.size();i++)
+            {
+
+            }
+
+        } catch(IOException | CsvException e) {
+            e.printStackTrace();
+        }
 
     }
 }
