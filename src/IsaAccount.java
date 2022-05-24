@@ -2,12 +2,13 @@ import java.util.Scanner;
 
 public class IsaAccount extends BankAccount {
     private final int currentSortCode =102345 ;
-    private final float interset = 2.0F;
-    private double interest;
+    private final float interest = 2.0F;
+
 
     private String interestDate = "01-03";
 
     public IsaAccount(double interest, String interestDate) {
+        super();
         this.interest = interest;
         this.interestDate = interestDate;
     }
