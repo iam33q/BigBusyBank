@@ -36,5 +36,15 @@ public class testingDateFormats {
         LocalDate maybeNow3 = LocalDate.parse(date,dateTimeFormatter);
         assertEquals(now3,maybeNow3);
     }
+
+    @Test
+    void testCurrentDate4(){    //String input date (Day, Month, Year)
+        LocalDate now3 = LocalDate.now();
+        String date = "22-05-2022";
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        LocalDate maybeNow3 = LocalDate.parse(date,dateTimeFormatter);
+        assertEquals(now3,maybeNow3);
+    }
+
 }
 

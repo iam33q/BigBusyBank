@@ -1,9 +1,8 @@
 import com.opencsv.CSVReader;
+import com.opencsv.CSVWriter;
 import com.opencsv.exceptions.CsvException;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -173,7 +172,8 @@ public class Customer {
         } catch (Exception e){
             e.printStackTrace();
         }
-        System.out.println("Account Creation Successful!");
+        writeCustomerToDisk(acc);
+        System.out.println("Account Creation Successful! Stored to disk.");
         return acc;
     }
     public static void editCustomer(Customer acc){
@@ -222,14 +222,6 @@ public class Customer {
                 System.out.println(e);
                 System.out.println("Valid Labels: "+activeLabels.toString());
             }
-        }
-    }
-    public static void writeCustomerToDisk(){
-        try{
-            CSVReader reader = new CSVReader(new FileReader("customerData.csv"));
-
-        } catch(FileNotFoundException e) {
-            e.printStackTrace();
         }
     }
     public static Customer ReadCustomerFromDisk(String searchLabel, String searchString) {
@@ -283,18 +275,57 @@ public class Customer {
         return acc;
     }
     public static void writeCustomerToDisk(Customer acc){
+        ArrayList<String> CSVInput= new ArrayList<>();
         try{
-            String size;
-            CSVReader reader = new CSVReader(new FileReader("customerData.csv"));
-            List<String[]> allRecords =reader.readAll();
-            for (int i=0;i<allRecords.size();i++)
+            CSVInput.add(getCustomerId());
+            String[] names = acc.getFullName().split(" ",2); //The consequences of my own actions
+            String[] dateComponents = acc.getDob().toString().split("-",3); //The price we pay for non-ISO-complying date input
+            CSVInput.add(names[0]);
+            CSVInput.add(names[1]);
+            CSVInput.add((dateComponents[2]+"-"+dateComponents[1]+"-"+dateComponents[0]));
+            CSVInput.add(acc.getTelephone());
+            CSVInput.add(acc.getEmail());
+            CSVInput.add(acc.getIdNumber());
+            CSVInput.add(acc.getAddress()[0]);
+            CSVInput.add(acc.getAddress()[1]);
+            CSVInput.add(acc.getAddress()[2]);
+            CSVInput.add(acc.getAddress()[3]);
+            try // Because I have no time/energy to look into reflection and see which classes are available
             {
-
+                CSVInput.add(acc.getAddress2()[0]);
+                CSVInput.add(acc.getAddress2()[1]);
+                CSVInput.add(acc.getAddress2()[2]);
+                CSVInput.add(acc.getAddress2()[3]);
+                CSVInput.add(acc.getAddress3()[0]);
+                CSVInput.add(acc.getAddress3()[1]);
+                CSVInput.add(acc.getAddress3()[2]);
+                CSVInput.add(acc.getAddress3()[3]);
+            } catch (RuntimeException e) {
+                System.out.println("There is no such data available of this customer.");
             }
-
-        } catch(IOException | CsvException e) {
-            e.printStackTrace();
+        } finally {
+            try{
+                CSVWriter writer = new CSVWriter(new FileWriter("customerData.csv"));
+                writer.writeNext(CSVInput.toArray(String[]::new));
+                writer.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
-
+    }
+    public static void displayCustomerInformation(Customer acc){
+        System.out.println("Custioner ID:   "+getCustomerId());
+        System.out.println("Full Name:      "+acc.getFullName());
+        System.out.println("Date of Birth:  "+acc.getDob());
+        System.out.println("Telephone:      "+acc.getTelephone());
+        System.out.println("Email:          "+acc.getEmail());
+        System.out.println("ID Number:      "+acc.getIdNumber());
+        System.out.println("Address 1:      "+acc.getAddress().toString());
+        try{
+            System.out.println("Address 2:      "+acc.getAddress2().toString());
+            System.out.println("Address 3:      "+acc.getAddress3().toString());
+        } catch(RuntimeException e){
+            System.out.println("This customer has no more addresses.");
+        }
     }
 }
