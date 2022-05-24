@@ -36,7 +36,7 @@ public class dashboard {
 
             case "N":
                 System.out.println("You are going to open a new account");
-                Customer ca = Customer.newCustomer();
+                Customer cus = Customer.newCustomer();
                 break;
         }
     }
