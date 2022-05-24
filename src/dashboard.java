@@ -1,9 +1,6 @@
 import java.util.Scanner;
-
 import com.opencsv.CSVReader;
-import com.opencsv.exceptions.CsvException;
 import java.io.FileReader;
-import java.io.IOException;
 import java.util.Hashtable;
 
 public class dashboard {
@@ -39,7 +36,7 @@ public class dashboard {
 
             case "N":
                 System.out.println("You are going to open a new account");
-                CustomerAccount ca = CustomerAccount.newCustomerAccount();
+                Customer ca = Customer.newCustomer();
                 break;
         }
     }

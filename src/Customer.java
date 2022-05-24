@@ -104,7 +104,7 @@ public class Customer {
         this.address3[3] = postCode;
     }
     // Methods
-    public Customer newCustomer(){
+    public static Customer newCustomer(){
         Customer acc = new Customer();
         try{
             System.out.println("In order to perform this function, please follow the instructions below:");
