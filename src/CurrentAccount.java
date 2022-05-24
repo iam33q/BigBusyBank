@@ -24,8 +24,8 @@ public class CurrentAccount extends BankAccount {
 
             System.out.print("\nIf required enter amount to deposit (format: 0.00): ");
             double amount = sc.nextDouble();
-            currentAcc.deposit(amount);
-            System.out.println("\nNew current account: " + currentAcc.getAccNumber() + " updated balance is: " + currentAcc.getBalance());
+//            currentAcc.deposit(amount);
+//            System.out.println("\nNew current account: " + currentAcc.getAccNumber() + " updated balance is: " + currentAcc.getBalance());
         } catch (Exception e) {
             e.printStackTrace();
         }
