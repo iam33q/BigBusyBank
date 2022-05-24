@@ -35,16 +35,11 @@ public class Customer {
         this.address = address;
         this.address2 = address2;
     }
-
-
-
-
     private Customer(int customerId, String fullName, LocalDate dob, String telephone, String Email, String IdNumber, String[] address, String[] address2, String[] address3){
         this.fullName = fullName;
         this.address = address;
         this.address2 = address2;
         this.address3 = address3;
-
     }
 
     //Getters
@@ -142,7 +137,6 @@ public class Customer {
     private void setAddress1StreetName(String s){this.address[1]=s;}
     private void setAddress1Town(String s){this.address[2]=s;}
     private void setAddress1PostCode(String s){this.address[3]=s;}
-
     private void setAddress2StreetNumber(String s){this.address2[0]=s;}
     private void setAddress2StreetName(String s){this.address2[1]=s;}
     private void setAddress2Town(String s){this.address2[2]=s;}
@@ -212,7 +206,7 @@ public class Customer {
         boolean keepgoing = true;
         System.out.println("Type in the data labels and press enter to select them for alteration. \nThen type in the new entry for that data label. \n Type in STOP to exit data entry.");
         System.out.println("Note: Date of Birth must be formatted as follows: [dd-MM-yyyy].\nCustomerId cannot be overwritten. \nFirst Name and Last Name choices will overwrite both names at once");
-            while(keepgoing){ // This loop will stop when you tell it to stop. Perfection.
+            while(keepgoing){ // This loop will stop when you tell it to stop. What more could a user ask for?
             System.out.println("Select which data you would like to alter:\n"+Arrays.toString(dataLabels3));
             scan=input.next();
             if(scan.equalsIgnoreCase("stop")) keepgoing=false;
