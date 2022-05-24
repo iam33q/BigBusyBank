@@ -24,27 +24,7 @@ public class testFileWriters {
             String[][] maybeNiners = reader.readAll().toArray(String[][]::new);
             System.out.println(Arrays.deepToString(maybeNiners));
             reader.close();
-            testFile.delete();
-            assertArrayEquals(myInput,maybeNiners[0]);
-        } catch(Exception e){
-            e.printStackTrace();
-        }
-    }
-    @Test
-    void testWriteCSVRecord2(){
-        try {
-            File testFile = new File("test.csv");
-            CSVWriter writer = new CSVWriter(new FileWriter("test.csv"));
-            String[] myInput = {"9","9","9","9","9","9","9","9"};
-            writer.writeNext(myInput);
-            writer.writeNext(new String[] {"You Mad Bro?"});
-            writer.close();
-            CSVReader reader = new CSVReader(new FileReader("test.csv"));
-            String[][] maybeNiners = reader.readAll().toArray(String[][]::new);
-            System.out.println(Arrays.deepToString(maybeNiners));
-            reader.close();
-            testFile.delete();
-            assertEquals("You Mad Bro?",maybeNiners[1][0]);
+            assertArrayEquals(myInput,maybeNiners[1]);
         } catch(Exception e){
             e.printStackTrace();
         }

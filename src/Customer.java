@@ -2,7 +2,10 @@ import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
 import com.opencsv.exceptions.CsvException;
 
-import java.io.*;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -172,8 +175,7 @@ public class Customer {
         } catch (Exception e){
             e.printStackTrace();
         }
-        writeCustomerToDisk(acc);
-        System.out.println("Account Creation Successful! Stored to disk.");
+        System.out.println("Account Creation Successful!");
         return acc;
     }
     public static void editCustomer(Customer acc){
@@ -224,6 +226,7 @@ public class Customer {
             }
         }
     }
+
     public static Customer ReadCustomerFromDisk(String searchLabel, String searchString) {
         Customer acc;
         try{
@@ -274,15 +277,15 @@ public class Customer {
         System.out.println("Account not found. Empty account created.");
         return acc;
     }
-    public static void writeCustomerToDisk(Customer acc){
-        ArrayList<String> CSVInput= new ArrayList<>();
-        try{
+    public static void writeCustomerToDisk(Customer acc) {
+        ArrayList<String> CSVInput = new ArrayList<>();
+        try {
             CSVInput.add(getCustomerId());
-            String[] names = acc.getFullName().split(" ",2); //The consequences of my own actions
-            String[] dateComponents = acc.getDob().toString().split("-",3); //The price we pay for non-ISO-complying date input
+            String[] names = acc.getFullName().split(" ", 2); //The consequences of my own actions
+            String[] dateComponents = acc.getDob().toString().split("-", 3); //The price we pay for non-ISO-complying date input
             CSVInput.add(names[0]);
             CSVInput.add(names[1]);
-            CSVInput.add((dateComponents[2]+"-"+dateComponents[1]+"-"+dateComponents[0]));
+            CSVInput.add((dateComponents[2] + "-" + dateComponents[1] + "-" + dateComponents[0]));
             CSVInput.add(acc.getTelephone());
             CSVInput.add(acc.getEmail());
             CSVInput.add(acc.getIdNumber());
@@ -304,7 +307,7 @@ public class Customer {
                 System.out.println("There is no such data available of this customer.");
             }
         } finally {
-            try{
+            try {
                 CSVWriter writer = new CSVWriter(new FileWriter("customerData.csv"));
                 writer.writeNext(CSVInput.toArray(String[]::new));
                 writer.close();
@@ -313,7 +316,8 @@ public class Customer {
             }
         }
     }
-    public static void displayCustomerInformation(Customer acc){
+    public static void displayCustomerInformation(Customer acc)
+    {
         System.out.println("Custioner ID:   "+getCustomerId());
         System.out.println("Full Name:      "+acc.getFullName());
         System.out.println("Date of Birth:  "+acc.getDob());
