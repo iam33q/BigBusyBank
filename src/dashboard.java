@@ -1,3 +1,4 @@
+import java.util.Random;
 import java.util.Scanner;
 import com.opencsv.CSVReader;
 import java.io.FileReader;
@@ -6,7 +7,12 @@ import java.util.Hashtable;
 public class dashboard {
     public static void main(String[] args) throws Exception {
 //        create a new instance of User
+
         User u = User.login();
+
+        CurrentAccount acc = CurrentAccount.newCurrentAccount();
+
+
 
 //        ask for which task the user would like to perform
         System.out.println("hey there " + u.uname + " please press 'e' to access an existing account," +
