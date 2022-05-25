@@ -3,13 +3,22 @@ import java.util.Scanner;
 public class CurrentAccount extends BankAccount {
     private int currentSortCode;
 
+    public CurrentAccount(double balance, Customer customer) {
+        super(balance, customer);
+        this.currentSortCode = 103445;
+    }
+
+    public CurrentAccount(double balance) {
+        super(balance);
+        this.currentSortCode = 103445;
+    }
     public CurrentAccount() {
         super();
-        this.currentSortCode = 102345;
+        this.currentSortCode = 103445;
     }
 
     public int getCurrentSortCode() {
-        return currentSortCode = 102345;
+        return currentSortCode;
     }
 
     public static CurrentAccount newCurrentAccount() {
@@ -19,13 +28,11 @@ public class CurrentAccount extends BankAccount {
 
             System.out.println("\nNew current account sort code: "+ currentAcc.getCurrentSortCode() +
             "\nAccount number is: "
-                    + currentAcc.getAccNumber() +
-                    "\nInitial balance is: " + currentAcc.getBalance());
+                    + currentAcc.getAccNumber());
+            System.out.printf( "\nInitial balance is: %.2f "  , currentAcc.getBalance());
 
-            System.out.print("\nIf required enter amount to deposit (format: 0.00): ");
-            double amount = sc.nextDouble();
-//            currentAcc.deposit(amount);
-//            System.out.println("\nNew current account: " + currentAcc.getAccNumber() + " updated balance is: " + currentAcc.getBalance());
+            currentAcc.deposit();
+
         } catch (Exception e) {
             e.printStackTrace();
         }

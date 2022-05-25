@@ -1,26 +1,34 @@
+import java.util.Random;
 import java.util.Scanner;
 
-public abstract class BankAccount  {
-    private final int accNumber;
+public  abstract class BankAccount  {
+    private int accNumber;
     private double balance;
     private String customerId;
 
     // Constructors
 
     public BankAccount( double balance, Customer customer) {
-        int lastAccountNumber = 9999999;
-        this.accNumber = lastAccountNumber+1;
-        lastAccountNumber++;
-        this.balance = balance;
+
+        this.accNumber = new Random().nextInt(90000000)+10000000;
+        this.setBalance(balance);
         this.customerId = customer.getCustomerId();
     }
 
+    public BankAccount(double balance) {
+        this.setBalance(balance);
+        this.accNumber = new Random().nextInt(90000000)+10000000;
+    }
+
+    public BankAccount() {
+        this.accNumber = new Random().nextInt(90000000)+10000000;
+    }
+
+
+
+    // getters
     public String getCustomerId() {
         return customerId;
-    }
-
-    public void setCustomerId(Customer customer) {
-        this.customerId = customer.getCustomerId();
     }
 
     public int getAccNumber() {
@@ -31,25 +39,37 @@ public abstract class BankAccount  {
         return balance;
     }
 
+    //setters
+
+    private void setAccNumber(){
+        this.accNumber = new Random().nextInt(90000000)+10000000;
+    }
     private void setBalance(double balance) {
         this.balance = balance;
+    }
+
+    public void setCustomerId(Customer customer) {
+        this.customerId = customer.getCustomerId();
     }
 
     //Methods
     Scanner sc = new Scanner(System.in);
 
-    //method to search an account number
 
 
     public void deposit(){
         double amount;
-        System.out.println("Enter amount to deposit (format: 0.00): ");
+        System.out.println("Enter amount to deposit: ");
         amount = sc.nextDouble();
         if(amount != 0){
             setBalance(getBalance() + amount);
         }
+        System.out.printf("New balance is: %.2f" ,getBalance());
+        System.out.println();
+
     }
-    public void withdraw(){
+
+    public double withdraw(){
         double amount;
         System.out.println("Enter amount to withdraw: ");
         amount = sc.nextDouble();
@@ -57,8 +77,10 @@ public abstract class BankAccount  {
             if(amount<=balance){
                 setBalance(this.balance - amount);
             }else System.out.println("Insufficient funds");
-        } else System.out.println("Field required ");
+        } else System.out.println("Amount is required ");
+        return getBalance();
     }
+
 
     public void transfer(){
         int sender;
@@ -75,6 +97,7 @@ public abstract class BankAccount  {
 
     }
 
+    //close account
 
 
 }
