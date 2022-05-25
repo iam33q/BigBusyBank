@@ -2,7 +2,7 @@ import java.util.Scanner;
 
 public class IsaAccount extends BankAccount {
     private final int currentSortCode =103446;
-    private final float annualInterestRate = 2.0F;
+    private final float annualInterestRate = 0.2F;
     private final double maxBalance = 20000;
 
     private final String interestDate = "01-03"; // it should be more sofisticated way to specify the date of interest
@@ -11,10 +11,15 @@ public class IsaAccount extends BankAccount {
         super(balance, customer);
 
     }
+    public IsaAccount(double balance) {
+        super(balance);
+
+    }
 
     public IsaAccount() {
         super();
     }
+
 
     private int getCurrentSortCode() {
         return currentSortCode;
@@ -57,7 +62,8 @@ public class IsaAccount extends BankAccount {
     }
 
     public void showInterestAmount(){
-        System.out.println("Annual interest amount is:  " + annualInterestAmount());
+
+        System.out.println("Annual interest amount is: " + annualInterestAmount());
     }
 
     public void addInterestToBalance(){
@@ -65,11 +71,12 @@ public class IsaAccount extends BankAccount {
         double interest;
         System.out.println("Enter today's day and month [01-03]: ");
         currentDate = sc.nextLine();
+
         if(interestDate.equals(currentDate)){
             interest = annualInterestAmount();
             showInterestAmount();
             if(interest>0){
-                deposit();
+                System.out.println("interest is 0");
             } else System.out.println("There is no interest to add");
 
         }else System.out.println("You can not apply interest today");
@@ -81,9 +88,9 @@ public class IsaAccount extends BankAccount {
 
     public static void main(String args[])
     {
-//IsaAccount isaAcc = new IsaAccount(2000.0);
+IsaAccount isaAcc = new IsaAccount(2000.00);
 
-//isaAcc.addInterestToAccount();
+isaAcc.addInterestToBalance();
 
     }
 
