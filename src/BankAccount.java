@@ -44,7 +44,7 @@ public  abstract class BankAccount  {
     private void setAccNumber(){
         this.accNumber = new Random().nextInt(90000000)+10000000;
     }
-    private void setBalance(double balance) {
+    void setBalance(double balance) {
         this.balance = balance;
     }
 
@@ -55,13 +55,15 @@ public  abstract class BankAccount  {
     //Methods
     Scanner sc = new Scanner(System.in);
 
-
+    public void checkBalance(){
+    System.out.printf("Your balance is: %.2f ", getBalance());
+    }
 
     public void deposit(){
         double amount;
         System.out.println("Enter amount to deposit: ");
         amount = sc.nextDouble();
-        if(amount != 0){
+        if(amount >0){
             setBalance(getBalance() + amount);
         }
         System.out.printf("New balance is: %.2f" ,getBalance());
@@ -73,7 +75,7 @@ public  abstract class BankAccount  {
         double amount;
         System.out.println("Enter amount to withdraw: ");
         amount = sc.nextDouble();
-        if(amount !=0){
+        if(amount >0){
             if(amount<=balance){
                 setBalance(this.balance - amount);
             }else System.out.println("Insufficient funds");

@@ -1,3 +1,5 @@
+import com.opencsv.CSVWriter;
+
 import java.util.Scanner;
 
 public class CurrentAccount extends BankAccount {
@@ -37,6 +39,12 @@ public class CurrentAccount extends BankAccount {
             e.printStackTrace();
         }
       return currentAcc;
+
+    }
+
+    public static void saveCurrentAccountToDisk( CurrentAccount currentAcc){
+
+        
 
     }
 

@@ -10,6 +10,7 @@ public class dashboard {
 
         User u = User.login();
 
+        // Creat bank account
         CurrentAccount acc = CurrentAccount.newCurrentAccount();
 
 
