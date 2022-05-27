@@ -10,13 +10,12 @@ public class dashboard {
 
         User u = User.login();
 
-//            CurrentAccount acc = CurrentAccount.newCurrentAccount();
-
-        Customer.edit(Customer.readFromDisk());
+//        CurrentAccount acc = CurrentAccount.newCurrentAccount();
 
 //        ask which task the user would like to perform
-        System.out.println("hey there " + u.uname + " please press 'existing' to access an existing account," +
-                " 'edit' to edit an account, 'close' to close an existing account, or 'new' to open a new account");
+        System.out.println("hey there " + u.uname + " please enter 'existing customer' to access an existing customer," +
+                " 'edit customer' to edit a customer, 'edit account' to edit an account, 'close' to close an existing account," +
+                " 'new customer' to create a new profile, or 'new account' to create a new account");
 
 //        read the input that the user enters
         Scanner in = new Scanner(System.in);
@@ -25,17 +24,21 @@ public class dashboard {
 //        switch statement to execute the requested functionality
         switch(input) {
 
-//            existing account functionality
-            case "EXISTING":
-//                bringing in code from User.java
+//            existing customer functionality
+            case "EXISTING CUSTOMER":
+                System.out.println("You are going to access an existing customer");
                 Customer customer = Customer.readFromDisk();
-//                System.out.println("The balance for account number " + input + " is equal to " + loginDetails.get(input));
+                break;
+
+//            edit customer functionality
+            case "EDIT CUSTOMER":
+                System.out.println("You are going to edit a customer");
+                Customer.edit(Customer.readFromDisk());
                 break;
 
 //            edit account functionality
-            case "EDIT":
+            case "EDIT ACCOUNT":
                 System.out.println("You are going to edit an account");
-                Customer.edit(Customer.readFromDisk());
                 break;
 
 //            close account functionality
@@ -43,10 +46,15 @@ public class dashboard {
                 System.out.println("You are going to close an account");
                 break;
 
+//            new customer functionality
+            case "NEW CUSTOMER":
+                System.out.println("You are going to create a new customer");
+                Customer cus = Customer.newCustomer();
+                break;
+
 //            new account functionality
-            case "NEW":
+            case "NEW ACCOUNT":
                 System.out.println("You are going to open a new account");
-                    Customer cus = Customer.newCustomer();
                 break;
         }
     }
