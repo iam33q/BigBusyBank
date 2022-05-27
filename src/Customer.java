@@ -1,6 +1,5 @@
 import com.opencsv.*;
 import com.opencsv.exceptions.CsvException;
-import org.apache.commons.collections.iterators.ArrayListIterator;
 
 import java.io.File;
 import java.io.FileReader;
@@ -151,9 +150,9 @@ public class Customer {
                 // Setting customer details
                 System.out.printf("\nThis customer account will require %d addresses.",numberOfAddresses);
                 acc.setCustomerId();
-                for (String data:activeLabels) inputChekerAndSetter(acc,input,data,scan);
+                for (String data:activeLabels) inputCheckerAndSetter(acc,input,data,scan);
 
-                System.out.println("Account Creation Successful! Please ignore the error below. It is very annoying and won't go away.");
+                System.out.println("Account Creation Successful!");
                 writeToDisk(acc);
                 return acc;
             } else throw new Exception("Access Denied. Empty account returned");
@@ -168,20 +167,22 @@ public class Customer {
         Scanner input2 = new Scanner(System.in);
         String scan;
         String scan2 = "";
+
         String[] activeLabels; // This will be defined below, according to the number of addresses in the Customer object.
         if(!Objects.equals(acc.getAddress2(), new String[]{"Null", "Null", "Null", "Null"})){
             if(!Objects.equals(acc.getAddress3(), new String[]{"Null", "Null", "Null", "Null"})) activeLabels = dataLabels3;
             else activeLabels = dataLabels2;
         } else activeLabels = dataLabels;
+
         boolean keepGoing = true;
         System.out.println("Type in the data labels and press enter to select them for alteration. \nThen type in the new entry for that data label. \n Type in STOP to exit data entry.");
-        System.out.println("Note: Date of Birth must be formatted as follows: [dd-MM-yyyy].\nCustomerId cannot be overwritten. \nFirst Name and Last Name choices will overwrite both names at once");
+        System.out.println("Note: Date of Birth must be formatted as follows: [dd-MM-yyyy].\nCustomerId cannot be overwritten. \n");
         System.out.println("Valid Labels: "+ Arrays.toString(activeLabels));
         while(keepGoing){ // This loop will stop when you tell it to stop. What more could a user ask for?
             System.out.println("Select which data you would like to alter:\n"+Arrays.toString(activeLabels));
-            scan=input.next();
-            if(scan.equalsIgnoreCase("stop")) keepGoing=false;
-            inputChekerAndSetter(acc,input,scan,scan2);
+            scan=input.nextLine();
+            if(scan.equalsIgnoreCase("stop")) keepGoing = false; // This is where the
+            else inputCheckerAndSetter(acc,input,scan,scan2);
         }
     }
     public static Customer readFromDisk() {
@@ -230,15 +231,13 @@ public class Customer {
     }
     public static void writeToDisk(Customer acc) {
         try {
-            File copyfile = new File("TempFile.csv");
-            if(copyfile.exists())
-                copyfile = new File("TempFile.csv");
+            File middleFile = new File("middle.csv");
+            File endFile = new File("customerData.csv");
             CSVReader reader = new CSVReader(new FileReader("customerData.csv"));
             List<String[]> allRecords = reader.readAll();
             reader.close();
-            CSVWriter writer = new CSVWriter(new FileWriter("TempFile.csv"));
-            writer.writeAll(allRecords);
-            writer.close();
+            boolean deleted = endFile.delete();
+
             ArrayList<String> CSVInput = new ArrayList<>();
             CSVInput.add(getCustomerId());
             String[] dateComponents = acc.getDob().toString().split("-", 3);//The price we pay for non-ISO-compliant date input
@@ -259,14 +258,18 @@ public class Customer {
             CSVInput.add(acc.getAddress3()[1]);
             CSVInput.add(acc.getAddress3()[2]);
             CSVInput.add(acc.getAddress3()[3]);
+
             allRecords.add(CSVInput.toArray(String[]::new));
+            CSVWriter writer = new CSVWriter(new FileWriter("middle.csv"));
             writer.writeAll(allRecords);
+            writer.close();
+            if(deleted) middleFile.renameTo(new File("customerData.csv"));
         } catch (IOException | CsvException e) {
             e.printStackTrace();
         }
     }
     public static void displayInformation(Customer acc){
-        System.out.println("Custioner ID:   "+ getCustomerId());
+        System.out.println("Customer ID:   "+ getCustomerId());
         System.out.println("Full Name:      "+ acc.getFullName());
         System.out.println("Date of Birth:  "+ acc.getDob());
         System.out.println("Telephone:      "+ acc.getTelephone());
@@ -276,13 +279,18 @@ public class Customer {
         if(!Objects.equals(acc.address2, new String[]{"Null", "Null", "Null", "Null"})) System.out.println("Address 2:  "+ Arrays.toString(acc.getAddress2()));
         if(!Objects.equals(acc.address3, new String[]{"Null", "Null", "Null", "Null"})) System.out.println("Address 3:  "+ Arrays.toString(acc.getAddress3()));
     }
-    private static void inputChekerAndSetter(Customer acc,Scanner input,String data,String scan){
+    private static void inputCheckerAndSetter(Customer acc, Scanner input, String data, String scan){
         check=false;
         while(!check){
-            System.out.println("Input the following information:\n"+data+":\n");
+            System.out.println("Input the following data to be written/overwritten:\n"+data+":\n");
             scan = input.nextLine();
             try {
                 switch(data){
+                    case "stop": break;
+                    case "Customer Id":
+                        acc.setCustomerId();
+                        System.out.println("Entry automatically assigned. No particular input required");
+                        break;
                     case "Full Name":       acc.setName(scan);                  break;
                     case "Date of Birth":   acc.setDob(scan);                   break;
                     case "Telephone":       acc.setTelephone(scan);             break;
