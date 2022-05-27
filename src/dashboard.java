@@ -13,9 +13,9 @@ public class dashboard {
 //        CurrentAccount acc = CurrentAccount.newCurrentAccount();
 
 //        ask which task the user would like to perform
-        System.out.println("hey there " + u.uname + " please enter 'existing customer' to access an existing customer," +
-                " 'edit customer' to edit a customer, 'new customer' to create a new profile," +
-                " or 'new account' to create a new account, or 'x' to exit");
+        System.out.println("hey there " + u.uname + " please enter 'withdraw' to withdraw money, 'transfer' to transfer money,");
+        System.out.println(" 'existing customer' to access an existing customer, 'edit customer' to edit a customer,");
+        System.out.println(" 'new customer' to create a new customer profile, or 'new account' to create a new account, or 'x' to exit");
 
         boolean closed = false;
         while (!closed) {
@@ -25,6 +25,16 @@ public class dashboard {
 
 //        switch statement to execute the requested functionality
             switch (input) {
+
+//            withdraw money functionality
+                case "WITHDRAW":
+                    System.out.println("You are going to withdraw money from an account");
+                    break;
+
+//            transfer money functionality
+                case "TRANSFER":
+                    System.out.println("You are going to transfer money between two accounts");
+                    break;
 
 //            existing customer functionality
                 case "EXISTING CUSTOMER":
