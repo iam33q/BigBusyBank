@@ -16,7 +16,7 @@ public class dashboard {
 
 //        ask which task the user would like to perform
         System.out.println("hey there " + u.uname + " please press 'existing' to access an existing account," +
-                " 'edit' to edit an account 'close' to close an existing account, or 'new' to open a new account");
+                " 'edit' to edit an account, 'close' to close an existing account, or 'new' to open a new account");
 
 //        read the input that the user enters
         Scanner in = new Scanner(System.in);
