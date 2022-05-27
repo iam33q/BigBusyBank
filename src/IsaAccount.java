@@ -54,7 +54,7 @@ public class IsaAccount extends BankAccount {
     }
 
     //Methods
-    public static IsaAccount newIsaAccount( int balance) {
+    public IsaAccount newIsaAccount( Customer customer, int openingBalance) {
         IsaAccount isaAcc = new IsaAccount(null,0);
         try {
             Scanner sc = new Scanner(System.in);
