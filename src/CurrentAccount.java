@@ -1,15 +1,15 @@
+import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
+import com.opencsv.exceptions.CsvException;
 
 import java.io.*;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Scanner;
+import java.util.*;
 
 public class CurrentAccount extends BankAccount {
     private static String sortCode;
 
     //Constructors-------------------------------------------------------
-
 
     public CurrentAccount(Customer customer, double balance) {
         super(customer, balance);
@@ -40,72 +40,66 @@ public class CurrentAccount extends BankAccount {
         return sortCode;
     }
 
-    //Setters
-
-
 
     //Methods-------------------------------------------------------------------------------
-    public CurrentAccount newCurrentAccount(Customer customer, int openingBalance ) {
+    public static CurrentAccount newCurrentAccount(Customer customer) {
 
-        CurrentAccount acc = new CurrentAccount(null, 0);
+        CurrentAccount acc = new CurrentAccount(customer, 0);
         try {
             Scanner sc = new Scanner(System.in);
 
+            //TODO: why getCustomerId() returns Null????
+//            System.out.println(customer.getCustomerId());
+//            if(Objects.equals(getCustomerId(), "Null")){
+//                System.out.println("No account can be created");
+//                return new CurrentAccount(null,0);}
+
             System.out.println("New current account sort code is: " + acc.getSortCode());
             System.out.println("Account number is: " + getAccNumber());
-//            System.out.println("Account open date is: " + getOpenDate());
+            System.out.println("Obligatory opening deposit of minimum GBP50" );
+            acc.deposit();
             System.out.printf("Initial balance is: %.2f ", getBalance());
 
-            acc.deposit();
 
         } catch (Exception e) {
             e.printStackTrace();
         }
+        writeToDisk(acc);
         return acc;
 
     }
 
-//    public static void saveCurrentAccountToDisk(Object acc) {
-//
-////        ArrayList<String> CSVInput = new ArrayList<>();
-//
-//        ArrayList<Object> accounts = new ArrayList<>();
-//        accounts.add(acc);
-//
-//
-////            CSVInput.add(getCustomerId());
-////            CSVInput.add(getAccNumber());
-////            CSVInput.add(String.valueOf(acc.getSortCode()));
-//////            CSVInput.add(String.valueOf(getOpenDate()));
-////            CSVInput.add(String.valueOf(getBalance()));
-//
-//
-//        try {
-////            CSVWriter writer = new CSVWriter(new FileWriter("customerAccountsData.csv"));
-//////            writer.writeNext(CSVInput.toArray(String[]::new));
-////            writer.close();
-//            final String CSV_SEPARATOR = ",";
-//            BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("products.csv"), "UTF-8"));
-//            for (Object account : accounts) {
-//                StringBuffer oneLine = new StringBuffer();
-//                oneLine.append(getAccNumber());
-//                oneLine.append(CSV_SEPARATOR);
-//                oneLine.append(account.getCustomerId());
-//                oneLine.append(CSV_SEPARATOR);
-//                oneLine.append(account.getBalance());
-//                oneLine.append(CSV_SEPARATOR);
-//                oneLine.append(account.getSortCode());
-//                bw.write(oneLine.toString());
-//                bw.newLine();
-//            }
-//            bw.flush();
-//            bw.close();
-//
-//
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//    }
+    //TODO:why customerId is null?
+    public static void writeToDisk(CurrentAccount acc) {
+        try {
+            File middleFile = new File("middle.csv");
+            File endFile = new File("customerAccountsData.csv");
+            CSVReader reader = new CSVReader(new FileReader("customerAccountsData.csv"));
+            List<String[]> allRecords = reader.readAll();
+            reader.close();
+            boolean deleted = endFile.delete();
 
+            ArrayList<String> CSVInput = new ArrayList<>();
+            CSVInput.add(getCustomerId());
+            CSVInput.add(getAccNumber());
+            CSVInput.add(String.valueOf(getBalance()));
+            CSVInput.add(acc.getSortCode());
+
+            allRecords.add(CSVInput.toArray(String[]::new));
+            CSVWriter writer = new CSVWriter(new FileWriter("middle.csv"));
+            writer.writeAll(allRecords);
+            writer.close();
+            if(deleted) middleFile.renameTo(new File("customerAccountsData.csv"));
+        } catch (IOException | CsvException e) {
+            e.printStackTrace();
+        }
+}
+
+//TODO: add read account from file
+//    public static CurrentAccount readFromDisk() {
+//        CurrentAccount acc=new CurrentAccount();
+//
+//        return acc;
+//    }
 
 }

@@ -1,9 +1,14 @@
+import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
+import com.opencsv.exceptions.CsvException;
 
+import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class IsaAccount extends BankAccount {
@@ -54,10 +59,14 @@ public class IsaAccount extends BankAccount {
     }
 
     //Methods
-    public IsaAccount newIsaAccount( Customer customer, int openingBalance) {
+    public static IsaAccount newIsaAccount( Customer customer) {
         IsaAccount isaAcc = new IsaAccount(null,0);
         try {
             Scanner sc = new Scanner(System.in);
+
+            if(getCustomerId() =="Null"){
+                System.out.println("No account can be created");
+                return new IsaAccount(null,0);}
 
             System.out.println("\nNew ISA account sort code: "+ isaAcc.getSortCode() +
                     "\nAccount number is: "
@@ -70,6 +79,7 @@ public class IsaAccount extends BankAccount {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        writeToDisk(isaAcc);
         return isaAcc;
     }
 
@@ -115,25 +125,31 @@ public class IsaAccount extends BankAccount {
     }
 
 
-    public static void saveIsaAccountToDisk( IsaAccount acc){
-        ArrayList<String> CSVInput = new ArrayList<>();
-
-        CSVInput.add(getCustomerId());
-        CSVInput.add(String.valueOf(getAccNumber()));
-        CSVInput.add(String.valueOf(getBalance()));
-        CSVInput.add(String.valueOf(getSortCode()));
-        CSVInput.add(String.valueOf(getInterestYear()));
-        CSVInput.add(String.valueOf(getAnnualInterestRate()));
-        CSVInput.add(String.valueOf(getMaxAllowance()));
-
+    public static void writeToDisk(IsaAccount acc) {
         try {
-            CSVWriter writer = new CSVWriter(new FileWriter("customerData.csv"));
-            writer.writeNext(CSVInput.toArray(String[]::new));
+            File middleFile = new File("middle.csv");
+            File endFile = new File("customerAccountsData.csv");
+            CSVReader reader = new CSVReader(new FileReader("customerAccountsData.csv"));
+            List<String[]> allRecords = reader.readAll();
+            reader.close();
+            boolean deleted = endFile.delete();
+
+            ArrayList<String> CSVInput = new ArrayList<>();
+            CSVInput.add(getCustomerId());
+            CSVInput.add(getAccNumber());
+            CSVInput.add(String.valueOf(getBalance()));
+            CSVInput.add(acc.getSortCode());
+
+            allRecords.add(CSVInput.toArray(String[]::new));
+            CSVWriter writer = new CSVWriter(new FileWriter("middle.csv"));
+            writer.writeAll(allRecords);
             writer.close();
-        } catch (IOException e) {
+            if(deleted) middleFile.renameTo(new File("customerAccountsData.csv"));
+        } catch (IOException | CsvException e) {
             e.printStackTrace();
         }
     }
+
 
 
 

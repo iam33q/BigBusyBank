@@ -1,6 +1,5 @@
 import com.opencsv.*;
 import com.opencsv.exceptions.CsvException;
-
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -125,8 +124,7 @@ public class Customer {
         Customer acc=new Customer(customerId, fullName, dob,telephone,Email,IdNumber,address,address2,address3);
         try{
             System.out.println("\nWelcome to the new customer portal.\nIn order to perform this function, please follow the instructions below:");
-            //if (LoginScript.LScript()){ // Additional login credentials check
-                if (true){ // Additional login credentials check
+            if (LoginScript.LScript()){ // Additional login credentials check
                 String[] activeLabels;
                 Scanner input = new Scanner(System.in);
                 int numberOfAddresses = 1;
@@ -162,7 +160,8 @@ public class Customer {
         }
         return acc;
     }
-    public static void edit(Customer acc){
+    public static void edit(){
+        Customer acc = readFromDisk();
         Scanner input = new Scanner(System.in);
         Scanner input2 = new Scanner(System.in);
         String scan;
@@ -184,8 +183,10 @@ public class Customer {
             if(scan.equalsIgnoreCase("stop")) keepGoing = false; // This is where the
             else inputCheckerAndSetter(acc,input,scan,scan2);
         }
+        writeToDisk(acc);
     }
     public static Customer readFromDisk() {
+        System.out.println("Welcome to the account search portal.\n");
         Customer acc=new Customer(customerId, fullName, dob,telephone,Email,IdNumber,address,address2,address3);
         System.out.println("Please input one of the following search label:\n"+ Arrays.toString(dataLabels3));
         Scanner in = new Scanner(System.in);
@@ -216,7 +217,6 @@ public class Customer {
                             acc.setAddress(requiredRecord[6],requiredRecord[7],requiredRecord[8],requiredRecord[9]);
                             acc.setAddress2(requiredRecord[10],requiredRecord[11],requiredRecord[12],requiredRecord[14]);
                             acc.setAddress3(requiredRecord[14],requiredRecord[15],requiredRecord[16],requiredRecord[17]);
-                            System.out.println("Account acquired.");
                             return acc;
                         }
                     }
@@ -225,8 +225,7 @@ public class Customer {
                 }
             } else throw new Exception("Invalid data label.");
         } catch (Exception e){System.out.println(e);}
-        acc=new Customer(customerId, fullName, dob,telephone,Email,IdNumber,address,address2,address3);
-        System.out.println("Account not found. Empty account returned.");
+        System.out.println("Customer not found. Null customer returned.");
         return acc;
     }
     public static void writeToDisk(Customer acc) {
