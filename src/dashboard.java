@@ -26,14 +26,14 @@ public class dashboard {
 //        switch statement to execute the requested functionality
             switch (input) {
 
-//            withdraw money functionality
+//            read data from customer accounts data. Find the account by customer ID. Then apply withdraw method
                 case "WITHDRAW":
                     System.out.println("You are going to withdraw money from an account");
 
 
                     break;
 
-//            transfer money functionality
+//            read data from customer accounts data. Find the account by customer ID. Then apply transfer method
                 case "TRANSFER":
 
                     System.out.println("You are going to transfer money between two accounts");
