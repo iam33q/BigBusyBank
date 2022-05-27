@@ -10,11 +10,11 @@ public class dashboard {
 
         User u = User.login();
 
-        CurrentAccount acc = CurrentAccount.newCurrentAccount();
+//            CurrentAccount acc = CurrentAccount.newCurrentAccount();
 
 
 
-//        ask for which task the user would like to perform
+//        ask which task the user would like to perform
         System.out.println("hey there " + u.uname + " please press 'e' to access an existing account," +
                 " 'c' to close an existing account, or 'n' to open a new account");
 
@@ -25,24 +25,24 @@ public class dashboard {
 //        switch statement to execute the requested functionality
         switch(input) {
 
+//            existing account functionality
             case "E":
-                System.out.println("Please enter a bank account number");
+                System.out.println("Please enter a full name");
                 input = in.nextLine();
 //                bringing in code from User.java
-                var loginDetails = new Hashtable<String,String>(); // This is where the login details will sit
-                CSVReader reader = new CSVReader(new FileReader("loginData.csv"));  // Importing CSV data inside this weird object
-                String[][] data= reader.readAll().toArray(String[][]::new);                 // Converting weird object into workable string array
-                for (String[] pair:data) loginDetails.put(pair[0], pair[1]);                // Placing array data into key value pairs
-                System.out.println("The balance for account number " + input + " is equal to " + loginDetails.get(input));
+                Customer customer = Customer.readCustomerFromDisk("fullName", input);
+//                System.out.println("The balance for account number " + input + " is equal to " + loginDetails.get(input));
                 break;
 
+//            close account functionality
             case "C":
                 System.out.println("You are going to close an account");
                 break;
 
+//            new account functionality
             case "N":
                 System.out.println("You are going to open a new account");
-                Customer cus = Customer.newCustomer();
+                    Customer cus = Customer.newCustomer();
                 break;
         }
     }

@@ -2,66 +2,74 @@ import java.util.Random;
 import java.util.Scanner;
 
 public  abstract class BankAccount  {
-    private int accNumber;
-    private double balance;
-    private String customerId;
+    private static String accNumber;
+    private static String customerId;
+    private static double balance;
 
-    // Constructors
+//    private static LocalDate openDate;
 
-    public BankAccount( double balance, Customer customer) {
+// Constructors---------------------------------------------------------------------------
 
-        this.accNumber = new Random().nextInt(90000000)+10000000;
-        this.setBalance(balance);
-        this.customerId = customer.getCustomerId();
-    }
 
-    public BankAccount(double balance) {
-        this.setBalance(balance);
-        this.accNumber = new Random().nextInt(90000000)+10000000;
+    public BankAccount(String accNumber, String customerId, double balance) {
+        BankAccount.customerId=customerId;
+        BankAccount.accNumber = String.valueOf(new Random().nextInt(90000000)+10000000);;
+        BankAccount.balance = balance;
+//        BankAccount.openDate= LocalDate.now();
     }
 
     public BankAccount() {
-        this.accNumber = new Random().nextInt(90000000)+10000000;
+
     }
 
+    // getters------------------------------------------------------------------------
+    public static String getCustomerId() {return customerId;}
+    public static String getAccNumber() {return accNumber;}
 
+    public static double getBalance() {return balance;}
 
-    // getters
-    public String getCustomerId() {
-        return customerId;
-    }
+//    public static LocalDate getOpenDate() {
+//        return openDate;
+//    }
 
-    public int getAccNumber() {
-        return accNumber;
-    }
+    //setters-----------------------------------------------------------------
 
-    public double getBalance() {
-        return balance;
-    }
-
-    //setters
-
-    private void setAccNumber(){
-        this.accNumber = new Random().nextInt(90000000)+10000000;
-    }
-    private void setBalance(double balance) {
-        this.balance = balance;
+    public void setBalance(double balance) {
+        BankAccount.balance = balance;
     }
 
     public void setCustomerId(Customer customer) {
-        this.customerId = customer.getCustomerId();
+        BankAccount.customerId = Customer.getCustomerId();
     }
 
-    //Methods
+
+
+    //Methods------------------------------------------------------------------------------
     Scanner sc = new Scanner(System.in);
 
+    public void checkBalance(){
+    System.out.printf("Your balance is: %.2f ", getBalance());
+    }
 
 
-    public void deposit(){
+    public void runDeposit(double amount){
+        if(amount >0){
+            setBalance(getBalance() + amount);
+        }
+    }
+
+    public  void runWithdraw(double amount){
+        if(amount >0){
+            if(amount<=balance){
+                setBalance(balance - amount);
+            }else System.out.println("Insufficient funds");
+        } else System.out.println("Amount is required ");
+    }
+    protected void deposit(){
         double amount;
         System.out.println("Enter amount to deposit: ");
         amount = sc.nextDouble();
-        if(amount != 0){
+        if(amount >0){
             setBalance(getBalance() + amount);
         }
         System.out.printf("New balance is: %.2f" ,getBalance());
@@ -73,31 +81,49 @@ public  abstract class BankAccount  {
         double amount;
         System.out.println("Enter amount to withdraw: ");
         amount = sc.nextDouble();
-        if(amount !=0){
+        if(amount >0){
             if(amount<=balance){
-                setBalance(this.balance - amount);
+                setBalance(balance - amount);
             }else System.out.println("Insufficient funds");
         } else System.out.println("Amount is required ");
         return getBalance();
     }
 
+//WIP -------------------------------------------------
+    public void transfer(BankAccount to, double amount){
+        this.runWithdraw(amount);
+        to.runDeposit(amount);;
 
-    public void transfer(){
-        int sender;
-        int receiver;
-        double amount;
-
-        System.out.println("Enter sender account number : ");
-        sender = sc.nextInt();
-        System.out.println("Enter receiver account number:  ");
-        receiver = sc.nextInt();
-        System.out.println("How much would you like to transfer? ");
-        amount = sc.nextDouble();
+//        int sender;
+//        int receiver;
+//        double amount;
+//
+//        System.out.println("Enter sender account number : ");
+//        sender = sc.nextInt();
+//        System.out.println("Enter receiver account number:  ");
+//        receiver = sc.nextInt();
+//        System.out.println("How much would you like to transfer? ");
+//        amount = sc.nextDouble();
 
 
     }
 
-    //close account
+
+//    public static void saveCurrentAccountToDisk( BankAccount acc){
+//        ArrayList<String> CSVInput = new ArrayList<>();
+//
+//        CSVInput.add(getCustomerId());
+//        CSVInput.add(String.valueOf(getAccNumber()));
+//        CSVInput.add(String.valueOf(getBalance()));
+//
+//        try {
+//            CSVWriter writer = new CSVWriter(new FileWriter("customerData.csv"));
+//            writer.writeNext(CSVInput.toArray(String[]::new));
+//            writer.close();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
 
 
 }
