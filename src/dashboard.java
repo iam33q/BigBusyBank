@@ -48,7 +48,7 @@ public class dashboard {
 //            edit customer functionality
                 case "EDIT CUSTOMER":
                     System.out.println("You are going to edit a customer");
-                    Customer.edit(Customer.readFromDisk());
+                    Customer.edit();
                     break;
 
 //            new customer functionality

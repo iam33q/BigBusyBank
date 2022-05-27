@@ -39,6 +39,9 @@ public  abstract class BankAccount {
         return balance;
     }
 
+//    public static LocalDate getOpenDate() {
+//        return openDate;
+//    }
 
     //setters-----------------------------------------------------------------
 
@@ -50,6 +53,9 @@ public  abstract class BankAccount {
         BankAccount.customerId = Customer.getCustomerId();
     }
 
+//    public static void setSortCode(String sortCode) {
+//        BankAccount.sortCode = sortCode;
+//    }
 
     //Methods------------------------------------------------------------------------------
     Scanner sc = new Scanner(System.in);
