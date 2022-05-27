@@ -6,20 +6,28 @@ public  abstract class BankAccount  {
     private static String customerId;
     private static double balance;
 
+    private static String sortCode;
+
 //    private static LocalDate openDate;
 
 // Constructors---------------------------------------------------------------------------
 
 
-    public BankAccount(String accNumber, String customerId, double balance) {
-        BankAccount.customerId=customerId;
+    public BankAccount( Customer customer, double balance) {
+        setCustomerId(customer);
         BankAccount.accNumber = String.valueOf(new Random().nextInt(90000000)+10000000);;
         BankAccount.balance = balance;
-//        BankAccount.openDate= LocalDate.now();
+
     }
 
     public BankAccount() {
 
+    }
+
+//    public BankAccount(double balance, Customer customer) {
+//    }
+
+    public BankAccount(double balance) {
     }
 
     // getters------------------------------------------------------------------------
@@ -42,7 +50,9 @@ public  abstract class BankAccount  {
         BankAccount.customerId = Customer.getCustomerId();
     }
 
-
+//    public static void setSortCode(String sortCode) {
+//        BankAccount.sortCode = sortCode;
+//    }
 
     //Methods------------------------------------------------------------------------------
     Scanner sc = new Scanner(System.in);
@@ -74,7 +84,6 @@ public  abstract class BankAccount  {
         }
         System.out.printf("New balance is: %.2f" ,getBalance());
         System.out.println();
-
     }
 
     public double withdraw(){
@@ -94,20 +103,10 @@ public  abstract class BankAccount  {
         this.runWithdraw(amount);
         to.runDeposit(amount);;
 
-//        int sender;
-//        int receiver;
-//        double amount;
-//
-//        System.out.println("Enter sender account number : ");
-//        sender = sc.nextInt();
-//        System.out.println("Enter receiver account number:  ");
-//        receiver = sc.nextInt();
-//        System.out.println("How much would you like to transfer? ");
-//        amount = sc.nextDouble();
-
-
     }
 
+
+//the method is overwriting records it is not adding them in
 
 //    public static void saveCurrentAccountToDisk( BankAccount acc){
 //        ArrayList<String> CSVInput = new ArrayList<>();
@@ -124,6 +123,7 @@ public  abstract class BankAccount  {
 //            e.printStackTrace();
 //        }
 //    }
+
 
 
 }
