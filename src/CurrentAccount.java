@@ -45,7 +45,7 @@ public class CurrentAccount extends BankAccount {
 
 
     //Methods-------------------------------------------------------------------------------
-    public CurrentAccount newCurrentAccount(Customer customer, int openingBalance ) {
+    public static CurrentAccount newCurrentAccount(Customer customer) {
 
         CurrentAccount acc = new CurrentAccount(null, 0);
         try {

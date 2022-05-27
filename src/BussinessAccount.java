@@ -83,7 +83,7 @@ public class BussinessAccount extends BankAccount{
 
 //Methods
 
-    public static BussinessAccount newBusinessAccount( Customer customer, String UTRnumber, int openingBalance) {
+    public static BussinessAccount newBusinessAccount( Customer customer, String UTRnumber) {
         BussinessAccount acc = new BussinessAccount(null, 0, null);
         try {
             Scanner sc = new Scanner(System.in);

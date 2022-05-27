@@ -15,47 +15,72 @@ public class dashboard {
 //        ask which task the user would like to perform
         System.out.println("hey there " + u.uname + " please enter 'existing customer' to access an existing customer," +
                 " 'edit customer' to edit a customer, 'edit account' to edit an account, 'close' to close an existing account," +
-                " 'new customer' to create a new profile, or 'new account' to create a new account");
+                " 'new customer' to create a new profile, or 'new account' to create a new account, or 'x' to exit");
 
+        boolean closed = false;
+        while (!closed) {
 //        read the input that the user enters
-        Scanner in = new Scanner(System.in);
-        String input = in.nextLine().toUpperCase();
+            Scanner in = new Scanner(System.in);
+            String input = in.nextLine().toUpperCase();
 
 //        switch statement to execute the requested functionality
-        switch(input) {
+            switch (input) {
 
 //            existing customer functionality
-            case "EXISTING CUSTOMER":
-                System.out.println("You are going to access an existing customer");
-                Customer customer = Customer.readFromDisk();
-                break;
+                case "EXISTING CUSTOMER":
+                    System.out.println("You are going to access an existing customer");
+                    Customer customer = Customer.readFromDisk();
+                    break;
 
 //            edit customer functionality
-            case "EDIT CUSTOMER":
-                System.out.println("You are going to edit a customer");
-                Customer.edit(Customer.readFromDisk());
-                break;
-
-//            edit account functionality
-            case "EDIT ACCOUNT":
-                System.out.println("You are going to edit an account");
-                break;
-
-//            close account functionality
-            case "CLOSE":
-                System.out.println("You are going to close an account");
-                break;
+                case "EDIT CUSTOMER":
+                    System.out.println("You are going to edit a customer");
+                    Customer.edit(Customer.readFromDisk());
+                    break;
 
 //            new customer functionality
-            case "NEW CUSTOMER":
-                System.out.println("You are going to create a new customer");
-                Customer cus = Customer.newCustomer();
-                break;
+                case "NEW CUSTOMER":
+                    System.out.println("You are going to create a new customer");
+                    Customer cus = Customer.newCustomer();
+                    break;
 
 //            new account functionality
-            case "NEW ACCOUNT":
-                System.out.println("You are going to open a new account");
-                break;
+                case "NEW ACCOUNT":
+                    System.out.println("You are going to open a new account. Type 'c' to add a current account,"
+                    + " 'i' for an ISA account, or 'b' for a business account.");
+                    Scanner in2 = new Scanner(System.in);
+                    String input2 = in2.nextLine().toUpperCase();
+                    switch (input2) {
+
+                        case "C":
+                            CurrentAccount.newCurrentAccount(Customer.readFromDisk());
+                            break;
+
+                        case "I":
+                            IsaAccount.newIsaAccount(Customer.readFromDisk());
+                            break;
+
+                        case "B":
+                            System.out.println("Please enter a correct UTR number");
+                            Scanner in3 = new Scanner(System.in);
+                            String input3 = in3.nextLine();
+                            BussinessAccount.newBusinessAccount(Customer.readFromDisk(), input3);
+                            break;
+
+                        default:
+                            System.out.println("Invalid input, please try again.");
+
+                    }
+                    break;
+
+                default:
+                    System.out.println("Invalid input, please try again.");
+                    break;
+
+                case "X":
+                    closed = true;
+                    System.out.println("You have exited this banking app");
+            }
         }
     }
 }
