@@ -4,10 +4,7 @@ import com.opencsv.exceptions.CsvException;
 
 import java.io.*;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Scanner;
+import java.util.*;
 
 public class CurrentAccount extends BankAccount {
     private static String sortCode;
@@ -47,14 +44,15 @@ public class CurrentAccount extends BankAccount {
     //Methods-------------------------------------------------------------------------------
     public static CurrentAccount newCurrentAccount(Customer customer) {
 
-        CurrentAccount acc = new CurrentAccount(null, 0);
+        CurrentAccount acc = new CurrentAccount(customer, 0);
         try {
             Scanner sc = new Scanner(System.in);
 
-            System.out.println(customer.getCustomerId());
-            if(Objects.equals(getCustomerId(), "Null")){
-                System.out.println("No account can be created");
-                return new CurrentAccount(null,0);}
+            //TODO: why getCustomerId() returns Null????
+//            System.out.println(customer.getCustomerId());
+//            if(Objects.equals(getCustomerId(), "Null")){
+//                System.out.println("No account can be created");
+//                return new CurrentAccount(null,0);}
 
             System.out.println("New current account sort code is: " + acc.getSortCode());
             System.out.println("Account number is: " + getAccNumber());
@@ -71,6 +69,7 @@ public class CurrentAccount extends BankAccount {
 
     }
 
+    //TODO:why customerId is null?
     public static void writeToDisk(CurrentAccount acc) {
         try {
             File middleFile = new File("middle.csv");
@@ -94,7 +93,13 @@ public class CurrentAccount extends BankAccount {
         } catch (IOException | CsvException e) {
             e.printStackTrace();
         }
-    }
+}
 
+//TODO: add read account from file
+//    public static CurrentAccount readFromDisk() {
+//        CurrentAccount acc=new CurrentAccount();
+//
+//        return acc;
+//    }
 
 }

@@ -29,10 +29,13 @@ public class dashboard {
 //            withdraw money functionality
                 case "WITHDRAW":
                     System.out.println("You are going to withdraw money from an account");
+
+
                     break;
 
 //            transfer money functionality
                 case "TRANSFER":
+
                     System.out.println("You are going to transfer money between two accounts");
                     break;
 
