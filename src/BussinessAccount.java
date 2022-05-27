@@ -1,5 +1,15 @@
+import com.opencsv.CSVReader;
+import com.opencsv.CSVWriter;
+import com.opencsv.exceptions.CsvException;
+
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.sql.SQLOutput;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.Scanner;
 
@@ -84,7 +94,7 @@ public class BussinessAccount extends BankAccount {
 
 //Methods
 
-    public static BussinessAccount newBusinessAccount(Customer customer, String UTRnumber, int openingBalance) {
+    public static BussinessAccount newBusinessAccount(Customer customer, String UTRnumber) {
         BussinessAccount acc = new BussinessAccount(null, 0, null);
         try {
             Scanner sc = new Scanner(System.in);
@@ -99,6 +109,7 @@ public class BussinessAccount extends BankAccount {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        writeToDisk(acc);
         return acc;
     }
 
@@ -114,4 +125,30 @@ public class BussinessAccount extends BankAccount {
             setChargeFeeDate(String.valueOf(date.plusYears(1)));
         } else System.out.println("You can not charge the business fee yet. ");
     }
+
+    public static void writeToDisk(BussinessAccount acc) {
+        try {
+            File middleFile = new File("middle.csv");
+            File endFile = new File("customerAccountsData.csv");
+            CSVReader reader = new CSVReader(new FileReader("customerAccountsData.csv"));
+            List<String[]> allRecords = reader.readAll();
+            reader.close();
+            boolean deleted = endFile.delete();
+
+            ArrayList<String> CSVInput = new ArrayList<>();
+            CSVInput.add(getCustomerId());
+            CSVInput.add(getAccNumber());
+            CSVInput.add(String.valueOf(getBalance()));
+            CSVInput.add(acc.getSortCode());
+
+            allRecords.add(CSVInput.toArray(String[]::new));
+            CSVWriter writer = new CSVWriter(new FileWriter("middle.csv"));
+            writer.writeAll(allRecords);
+            writer.close();
+            if(deleted) middleFile.renameTo(new File("customerAccountsData.csv"));
+        } catch (IOException | CsvException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

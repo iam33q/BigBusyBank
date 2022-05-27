@@ -50,11 +50,13 @@ public class dashboard {
             case "NEW CUSTOMER":
                 System.out.println("You are going to create a new customer");
                 Customer cus = Customer.newCustomer();
+
                 break;
 
 //            new account functionality
             case "NEW ACCOUNT":
                 System.out.println("You are going to open a new account");
+
                 break;
         }
     }

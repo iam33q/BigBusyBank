@@ -60,6 +60,7 @@ public class CurrentAccount extends BankAccount {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        writeToDisk(acc);
         return acc;
 
     }
