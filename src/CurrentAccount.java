@@ -40,12 +40,9 @@ public class CurrentAccount extends BankAccount {
         return sortCode;
     }
 
-    //Setters
-
-
 
     //Methods-------------------------------------------------------------------------------
-    public CurrentAccount newCurrentAccount(Customer customer, int openingBalance ) {
+    public static CurrentAccount newCurrentAccount(Customer customer, double openingBalance) {
 
         CurrentAccount acc = new CurrentAccount(null, 0);
         try {
@@ -53,10 +50,10 @@ public class CurrentAccount extends BankAccount {
 
             System.out.println("New current account sort code is: " + acc.getSortCode());
             System.out.println("Account number is: " + getAccNumber());
-//            System.out.println("Account open date is: " + getOpenDate());
+            System.out.println("Obligatory opening deposit of minimum GBP50" );
+            acc.deposit();
             System.out.printf("Initial balance is: %.2f ", getBalance());
 
-            acc.deposit();
 
         } catch (Exception e) {
             e.printStackTrace();
