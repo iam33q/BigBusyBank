@@ -64,6 +64,10 @@ public class IsaAccount extends BankAccount {
         try {
             Scanner sc = new Scanner(System.in);
 
+            if(getCustomerId() =="Null"){
+                System.out.println("No account can be created");
+                return new IsaAccount(null,0);}
+
             System.out.println("\nNew ISA account sort code: "+ isaAcc.getSortCode() +
                     "\nAccount number is: "
                     + isaAcc.getAccNumber() +

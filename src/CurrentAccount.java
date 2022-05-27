@@ -6,6 +6,7 @@ import java.io.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Scanner;
 
 public class CurrentAccount extends BankAccount {
@@ -49,6 +50,11 @@ public class CurrentAccount extends BankAccount {
         CurrentAccount acc = new CurrentAccount(null, 0);
         try {
             Scanner sc = new Scanner(System.in);
+
+            System.out.println(customer.getCustomerId());
+            if(Objects.equals(getCustomerId(), "Null")){
+                System.out.println("No account can be created");
+                return new CurrentAccount(null,0);}
 
             System.out.println("New current account sort code is: " + acc.getSortCode());
             System.out.println("Account number is: " + getAccNumber());
