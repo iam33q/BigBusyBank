@@ -20,9 +20,9 @@ public class Customer {
     private static String[] address = new String[] {"Null","Null","Null","Null"};
     private static String[] address2= new String[] {"Null","Null","Null","Null"};
     private static String[] address3= new String[] {"Null","Null","Null","Null"};
-    private static final String[] dataLabels =  {"Full Name","Date of Birth","Telephone","Email","Id Number","Street Number 1","Street Name 1","Town 1","Post Code 1"}; // One of these three arrays will be used to define the size of a data set further down
-    private static final String[] dataLabels2 = {"Full Name","Date of Birth","Telephone","Email","Id Number","Street Number 1","Street Name 1","Town 1","Post Code 1","Street Number 2","Street Name 2","Town 2","Post Code 2"};
-    private static final String[] dataLabels3 = {"Full Name","Date of Birth","Telephone","Email","Id Number","Street Number 1","Street Name 1","Town 1","Post Code 1","Street Number 2","Street Name 2","Town 2","Post Code 2","Street Number 3","Street Name 3","Town 3","Post Code 3"};
+    private static final String[] dataLabels =  {"Customer Id","Full Name","Date of Birth","Telephone","Email","Id Number","Street Number 1","Street Name 1","Town 1","Post Code 1"}; // One of these three arrays will be used to define the size of a data set further down
+    private static final String[] dataLabels2 = {"Customer Id","Full Name","Date of Birth","Telephone","Email","Id Number","Street Number 1","Street Name 1","Town 1","Post Code 1","Street Number 2","Street Name 2","Town 2","Post Code 2"};
+    private static final String[] dataLabels3 = {"Customer Id","Full Name","Date of Birth","Telephone","Email","Id Number","Street Number 1","Street Name 1","Town 1","Post Code 1","Street Number 2","Street Name 2","Town 2","Post Code 2","Street Number 3","Street Name 3","Town 3","Post Code 3"};
     private static final DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd-MM-yyyy");
     private static boolean check;
     //Constructors
@@ -197,9 +197,12 @@ public class Customer {
             if (labelList.contains(searchLabel))    // Validating searchLabel input
             {
                 int index1 = labelList.indexOf(searchLabel);
+
                 try {
                     CSVReader reader = new CSVReader(new FileReader("customerData.csv"));
                     List<String[]> allRecords = reader.readAll();
+                    System.out.println(allRecords.get(0)[index1]);
+                    System.out.println(searchString);
                     //var
                     for (int i = 0; i < allRecords.size(); i++) {
                         if (Objects.equals(allRecords.get(i)[index1], searchString)){   // Construction time!

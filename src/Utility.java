@@ -22,8 +22,8 @@ public class Utility {
 //                LocalDate openDate = LocalDate.parse(account[4]);
                 double balance = Double.parseDouble(account[2]);
 
-                CurrentAccount acc = new CurrentAccount(accNumber, customerId, balance,sortCode);
-                currentAccounts.add(acc);
+                //CurrentAccount acc = new CurrentAccount(accNumber, customerId, balance,sortCode);
+                //currentAccounts.add(acc);
 
             }
 
