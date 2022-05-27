@@ -53,7 +53,7 @@ public class Customer {
         customerId = new UUID(new Random().nextLong(2^32), new Random().nextLong(2^32)).toString();
         check=true;
     }
-    private void setName(String fullName){Customer.fullName = fullName;check=true;}
+    private void setName(String fullName){Customer.fullName = fullName; check=true;}
     private void setDob(String date) // Date format: dd-MM-yyyy
     {
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
@@ -184,8 +184,14 @@ public class Customer {
             inputChekerAndSetter(acc,input,scan,scan2);
         }
     }
-    public static Customer readFromDisk(String searchLabel, String searchString) {
+    public static Customer readFromDisk() {
         Customer acc=new Customer(customerId, fullName, dob,telephone,Email,IdNumber,address,address2,address3);
+        System.out.println("Please input one of the following search label:\n"+ Arrays.toString(dataLabels3));
+        Scanner in = new Scanner(System.in);
+        Scanner in2=new Scanner(System.in);
+        String searchLabel = in.nextLine();
+        System.out.println("Please input an exact match of the labelled field entry associated with a client:");
+        String searchString = in.nextLine();
         try{
             List<String> labelList = new ArrayList<>(Arrays.asList(dataLabels3));
             if (labelList.contains(searchLabel))    // Validating searchLabel input
@@ -252,7 +258,6 @@ public class Customer {
             CSVInput.add(acc.getAddress3()[3]);
             allRecords.add(CSVInput.toArray(String[]::new));
             writer.writeAll(allRecords);
-            writer.close();
         } catch (IOException | CsvException e) {
             e.printStackTrace();
         }
