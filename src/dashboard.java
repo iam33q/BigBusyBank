@@ -10,10 +10,6 @@ public class dashboard {
 
         User u = User.login();
 
-        // Creat bank account
-        CurrentAccount acc = CurrentAccount.newCurrentAccount();
-
-
 
 //        ask for which task the user would like to perform
         System.out.println("hey there " + u.uname + " please press 'e' to access an existing account," +

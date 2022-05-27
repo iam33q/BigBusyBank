@@ -1,8 +1,6 @@
 import com.opencsv.CSVWriter;
 
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -12,13 +10,16 @@ public class CurrentAccount extends BankAccount {
 
     //Constructors-------------------------------------------------------
 
-    public CurrentAccount(String accNumber, String customerId, double balance, String sortCode) {
-        super(accNumber, customerId, balance);
-       CurrentAccount.sortCode= "103445";
+    public CurrentAccount(Customer customer, double balance) {
+        super(customer, balance);
+        CurrentAccount.sortCode = "103445";
     }
 
     public CurrentAccount(String accNumber, String customerId, double balance, LocalDate openDate, String sortCode) {
         super();
+    }
+
+    public CurrentAccount(String accNumber, String customerId, String balance, String sortCode) {
     }
 
 
@@ -26,64 +27,73 @@ public class CurrentAccount extends BankAccount {
     public String getSortCode() {
         return sortCode;
     }
-//Methods-------------------------------------------------------------------------------
-    public static CurrentAccount newCurrentAccount() {
 
-        CurrentAccount acc = new CurrentAccount(null,null,0, sortCode);
+    //Setters
+
+
+
+    //Methods-------------------------------------------------------------------------------
+    public static CurrentAccount newCurrentAccount(Customer customer) {
+
+        CurrentAccount acc = new CurrentAccount(null, 0);
         try {
             Scanner sc = new Scanner(System.in);
 
-            System.out.println("New current account sort code is: "+ acc.getSortCode());
+            System.out.println("New current account sort code is: " + acc.getSortCode());
             System.out.println("Account number is: " + getAccNumber());
 //            System.out.println("Account open date is: " + getOpenDate());
-            System.out.printf( "Initial balance is: %.2f "  , getBalance());
+            System.out.printf("Initial balance is: %.2f ", getBalance());
 
             acc.deposit();
 
         } catch (Exception e) {
             e.printStackTrace();
         }
-      return acc;
+        return acc;
 
     }
 
-    public static void saveCurrentAccountToDisk( CurrentAccount acc){
-
-        ArrayList<String> CSVInput = new ArrayList<>();
-
-            CSVInput.add(getCustomerId());
-            CSVInput.add(getAccNumber());
-            CSVInput.add(String.valueOf(acc.getSortCode()));
-//            CSVInput.add(String.valueOf(getOpenDate()));
-            CSVInput.add(String.valueOf(getBalance()));
-
-
-        try {
-            CSVWriter writer = new CSVWriter(new FileWriter("customerAccountsData.csv"));
-            writer.writeNext(CSVInput.toArray(String[]::new));
-            writer.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-
-    public static void main(String args[]) throws FileNotFoundException {
-//        CurrentAccount acc = CurrentAccount.newCurrentAccount();
-//        saveCurrentAccountToDisk( acc);
-
-        ArrayList<CurrentAccount> accounts = Utility.readFile("customerAccountsData.csv");
-        System.out.println(accounts);
-
-             for (CurrentAccount account : accounts) {
-                 System.out.println(account);
-             }
-
-              {
-
-        }
-
-    }
+//    public static void saveCurrentAccountToDisk(Object acc) {
+//
+////        ArrayList<String> CSVInput = new ArrayList<>();
+//
+//        ArrayList<Object> accounts = new ArrayList<>();
+//        accounts.add(acc);
+//
+//
+////            CSVInput.add(getCustomerId());
+////            CSVInput.add(getAccNumber());
+////            CSVInput.add(String.valueOf(acc.getSortCode()));
+//////            CSVInput.add(String.valueOf(getOpenDate()));
+////            CSVInput.add(String.valueOf(getBalance()));
+//
+//
+//        try {
+////            CSVWriter writer = new CSVWriter(new FileWriter("customerAccountsData.csv"));
+//////            writer.writeNext(CSVInput.toArray(String[]::new));
+////            writer.close();
+//            final String CSV_SEPARATOR = ",";
+//            BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("products.csv"), "UTF-8"));
+//            for (Object account : accounts) {
+//                StringBuffer oneLine = new StringBuffer();
+//                oneLine.append(getAccNumber());
+//                oneLine.append(CSV_SEPARATOR);
+//                oneLine.append(account.getCustomerId());
+//                oneLine.append(CSV_SEPARATOR);
+//                oneLine.append(account.getBalance());
+//                oneLine.append(CSV_SEPARATOR);
+//                oneLine.append(account.getSortCode());
+//                bw.write(oneLine.toString());
+//                bw.newLine();
+//            }
+//            bw.flush();
+//            bw.close();
+//
+//
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
 
 
 }
