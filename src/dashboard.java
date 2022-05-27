@@ -15,8 +15,8 @@ public class dashboard {
 
 
 //        ask which task the user would like to perform
-        System.out.println("hey there " + u.uname + " please press 'e' to access an existing account," +
-                " 'c' to close an existing account, or 'n' to open a new account");
+        System.out.println("hey there " + u.uname + " please press 'existing' to access an existing account," +
+                " 'edit' to edit an account 'close' to close an existing account, or 'new' to open a new account");
 
 //        read the input that the user enters
         Scanner in = new Scanner(System.in);
@@ -26,19 +26,25 @@ public class dashboard {
         switch(input) {
 
 //            existing account functionality
-            case "E":
+            case "EXISTING":
 //                bringing in code from User.java
                 Customer customer = Customer.readFromDisk();
 //                System.out.println("The balance for account number " + input + " is equal to " + loginDetails.get(input));
                 break;
 
+//            edit account functionality
+            case "EDIT":
+                System.out.println("You are going to edit an account");
+                Customer.edit(Customer.readFromDisk());
+                break;
+
 //            close account functionality
-            case "C":
+            case "CLOSE":
                 System.out.println("You are going to close an account");
                 break;
 
 //            new account functionality
-            case "N":
+            case "NEW":
                 System.out.println("You are going to open a new account");
                     Customer cus = Customer.newCustomer();
                 break;
