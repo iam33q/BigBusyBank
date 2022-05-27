@@ -10,18 +10,30 @@ public class CurrentAccount extends BankAccount {
 
     //Constructors-------------------------------------------------------
 
+
     public CurrentAccount(Customer customer, double balance) {
         super(customer, balance);
         CurrentAccount.sortCode = "103445";
     }
 
-    public CurrentAccount(String accNumber, String customerId, double balance, LocalDate openDate, String sortCode) {
+    public CurrentAccount() {
+        CurrentAccount.sortCode = "103445";
+    }
+
+    public CurrentAccount(double balance) {
+        super(balance);
+        CurrentAccount.sortCode = "103445";
+    }
+
+
+    public CurrentAccount(String accNumber, String customerId, double balance, String sortCode) {
         super();
+        CurrentAccount.sortCode = "103445";
     }
 
     public CurrentAccount(String accNumber, String customerId, String balance, String sortCode) {
+        CurrentAccount.sortCode = "103445";
     }
-
 
     //Getters--------------------------------------------------------------------------
     public String getSortCode() {
@@ -33,7 +45,7 @@ public class CurrentAccount extends BankAccount {
 
 
     //Methods-------------------------------------------------------------------------------
-    public static CurrentAccount newCurrentAccount(Customer customer) {
+    public CurrentAccount newCurrentAccount(Customer customer, int openingBalance ) {
 
         CurrentAccount acc = new CurrentAccount(null, 0);
         try {
