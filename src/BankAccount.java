@@ -19,11 +19,9 @@ public  abstract class BankAccount {
         BankAccount.balance = balance;
 
     }
-
     public BankAccount() {
 
     }
-
 
     public BankAccount(double balance) {
     }
@@ -104,11 +102,9 @@ public  abstract class BankAccount {
         return getBalance();
     }
 
-    //WIP -------------------------------------------------
-    public void transfer(BankAccount to, double amount) {
+    public void transfer (BankAccount to, double amount) {
         this.runWithdraw(amount);
         to.runDeposit(amount);
-        ;
     }
 }
 
