@@ -42,7 +42,7 @@ public  abstract class BankAccount  {
 
     //setters-----------------------------------------------------------------
 
-    public void setBalance(double balance) {
+    public static void setBalance(double balance) {
         BankAccount.balance = balance;
     }
 
@@ -68,7 +68,7 @@ public  abstract class BankAccount  {
         }
     }
 
-    public  void runWithdraw(double amount){
+    public static void runWithdraw(double amount){
         if(amount >0){
             if(amount<=balance){
                 setBalance(balance - amount);
