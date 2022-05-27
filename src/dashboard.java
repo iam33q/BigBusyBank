@@ -30,7 +30,7 @@ public class dashboard {
                 System.out.println("Please enter a full name");
                 input = in.nextLine();
 //                bringing in code from User.java
-                Customer customer = Customer.readCustomerFromDisk("fullName", input);
+                Customer customer = Customer.readFromDisk("fullName", input);
 //                System.out.println("The balance for account number " + input + " is equal to " + loginDetails.get(input));
                 break;
 
