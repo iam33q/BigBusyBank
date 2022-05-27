@@ -14,8 +14,8 @@ public class dashboard {
 
 //        ask which task the user would like to perform
         System.out.println("hey there " + u.uname + " please enter 'existing customer' to access an existing customer," +
-                " 'edit customer' to edit a customer, 'edit account' to edit an account, 'close' to close an existing account," +
-                " 'new customer' to create a new profile, or 'new account' to create a new account, or 'x' to exit");
+                " 'edit customer' to edit a customer, 'new customer' to create a new profile," +
+                " or 'new account' to create a new account, or 'x' to exit");
 
         boolean closed = false;
         while (!closed) {
