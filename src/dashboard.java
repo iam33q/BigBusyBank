@@ -12,7 +12,7 @@ public class dashboard {
 
 //            CurrentAccount acc = CurrentAccount.newCurrentAccount();
 
-
+        Customer.edit(Customer.readFromDisk());
 
 //        ask which task the user would like to perform
         System.out.println("hey there " + u.uname + " please press 'existing' to access an existing account," +
